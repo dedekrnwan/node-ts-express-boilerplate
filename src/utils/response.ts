@@ -4,8 +4,8 @@ import { IResponse } from "./../interfaces"
 export const response = {
     //#region 2**
     ok : ({
-        flag = '',
-        message = 'OK',
+        flag = 'Ok',
+        message = 'Process success',
         data = {}
     }):IResponse => response.build(<IResponse> {
         flag,
@@ -14,8 +14,8 @@ export const response = {
         code: 200,
     }),
     created : ({
-        flag = '',
-        message = 'Data Created',
+        flag = 'Created',
+        message = 'Data has been created',
         data = {}
     }):IResponse => response.build(<IResponse> {
         flag,
@@ -24,8 +24,8 @@ export const response = {
         code: 201,
     }),
     accepted : ({
-        flag = '',
-        message = 'Accepted',
+        flag = 'Accepted',
+        message = 'The request has been accepted for processing, but the processing has not been completed. The request might or might not be eventually acted upon, and may be disallowed when processing occurs',
         data = {}
     }):IResponse => response.build(<IResponse> {
         flag,
@@ -34,8 +34,8 @@ export const response = {
         code: 202,
     }),
     noContent : ({
-        flag = '',
-        message = 'No Content',
+        flag = 'No Content',
+        message = 'The server successfully processed the request and is not returning any content.',
         data = {}
     }):IResponse => response.build(<IResponse> {
         flag,
@@ -46,8 +46,8 @@ export const response = {
     //#endregion
     //#region 4**
     badRequest : ({
-        flag = '',
-        message = 'Bad Request',
+        flag = 'Bad Request',
+        message = 'The server cannot or will not process the request due to an apparent client erro',
         data = {}
     }):IResponse => response.build(<IResponse> {
         flag,
@@ -56,8 +56,8 @@ export const response = {
         code: 400,
     }),
     forbidden : ({
-        flag = '',
-        message = 'Forbidden',
+        flag = 'Forbidden',
+        message = 'The request contained valid data and was understood by the server, but the server is refusing action. This may be due to the user not having the necessary permissions for a resource or needing an account of some sort, or attempting a prohibited action ',
         data = {}
     }):IResponse => response.build(<IResponse> {
         flag,
@@ -66,8 +66,8 @@ export const response = {
         code: 403,
     }),
     notAcceptable : ({
-        flag = '',
-        message = 'Not Acceptable',
+        flag = 'Not Acceptable',
+        message = 'The requested resource is capable of generating only content not acceptable according to the Accept headers sent in the request.',
         data = {}
     }):IResponse => response.build(<IResponse> {
         flag,
@@ -76,8 +76,8 @@ export const response = {
         code: 406,
     }),
     conflict : ({
-        flag = '',
-        message = 'Conflict',
+        flag = 'Confliect',
+        message = 'Indicates that the request could not be processed because of conflict in the current state of the resource, such as an edit conflict between multiple simultaneous updates.',
         data = {}
     }):IResponse => response.build(<IResponse> {
         flag,

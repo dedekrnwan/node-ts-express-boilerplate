@@ -3,6 +3,7 @@ import {
     Attach,
 } from '@dedekrnwan/decorators-express'
 import * as Middlewares from "./middlewares"
+import AuthController from "../modules/auth/auth.controller"
 
 export default async (app:express.Application):Promise<express.Application> => {
     return new Promise<express.Application>(async(resolve, reject) => {
@@ -16,7 +17,7 @@ export default async (app:express.Application):Promise<express.Application> => {
     })
 }
 const controllers = [
- 
+    AuthController
 ]
 const middlewares = (apps:express.Application) => {
     return new Promise<express.Application>(async (resolve, reject) => {

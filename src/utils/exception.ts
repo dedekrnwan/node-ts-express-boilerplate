@@ -17,7 +17,7 @@ export class Exception extends Error {
     super(error.message)
     this.success = false
 
-    this.code = error.code || 500,
+    this.code = error['code'] || 500,
     this.message = error.message,
     this.flag = 'Oops something went wrong'
     if (error) {
