@@ -1,0 +1,9 @@
+{"level":30,"time":1572315658794,"pid":12644,"hostname":"DESKTOP-N5G0CM1","msg":"Listening undefined config","v":1}
+{"level":30,"time":1572315658810,"pid":12644,"hostname":"DESKTOP-N5G0CM1","msg":"Boilerplate ExpressJs (Typescript) listening on the port 3000","v":1}
+{"level":30,"time":1572315658813,"pid":12644,"hostname":"DESKTOP-N5G0CM1","msg":"listening event [\"index\"]","v":1}
+{"level":30,"time":1572315697827,"pid":4844,"hostname":"DESKTOP-N5G0CM1","msg":"Listening development config","v":1}
+{"level":30,"time":1572315697842,"pid":4844,"hostname":"DESKTOP-N5G0CM1","msg":"Boilerplate ExpressJs (Typescript) listening on the port 3000","v":1}
+{"level":30,"time":1572315697845,"pid":4844,"hostname":"DESKTOP-N5G0CM1","msg":"listening event [\"index\"]","v":1}
+{"level":30,"time":1572315725184,"pid":7612,"hostname":"DESKTOP-N5G0CM1","msg":"Listening development config","v":1}
+{"level":30,"time":1572315725201,"pid":7612,"hostname":"DESKTOP-N5G0CM1","msg":"Boilerplate ExpressJs (Typescript) listening on the port 3000","v":1}
+{"level":30,"time":1572315725204,"pid":7612,"hostname":"DESKTOP-N5G0CM1","msg":"listening event [\"index\"]","v":1}
