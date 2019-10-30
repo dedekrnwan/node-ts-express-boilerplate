@@ -70,7 +70,24 @@ export default class AuthController {
                 }
             }))
         } catch (error) {
-            next(new exception(error))
+            next(error)
+        }
+    }
+    @Route({
+        method: 'get',
+        path: '/testing'
+    })
+    @RouteMiddleware.before([
+        authMiddleware.authorized({
+            action: 'AUTHOPE',
+            modules: 'SOME'
+        }),
+    ])
+    testing = async (req:express.Request, res:express.Response, next:express.NextFunction):Promise<any> => {
+        try {
+            next(response.ok({}));
+        } catch (error) {
+            next(error)
         }
     }
 }

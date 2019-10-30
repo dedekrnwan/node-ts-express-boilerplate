@@ -41,7 +41,7 @@ export const login = (credentials:AuthLogin):Promise<any> =>  new Promise<any>(a
             if (comparePassword) {
                 // register jwt
                 const token = await jwt.sign({
-                    id: user.id
+                    _id: user.id
                 })
                 resolve(token)
             }else {

@@ -1,0 +1,84 @@
+import express from "express";
+import jwt from "./jwt";
+import { IAuthorityCheck } from '../interfaces'
+import Module from './../modules/module/module.model'
+import Authority from '../modules/authority/authority.model'
+import AuthorityAccess from '../modules/authority/authorityAccess/authorityAccess.model'
+import UserAuthority from '../modules/user/userAuthority/userAuthority.model'
+import User from '../modules/user/user.model'
+import Exception from "./exception";
+
+export default {
+    authenticated: (req:express.Request) => new Promise<any>(async (resolve, reject) => {
+        try {
+            const token:string = req.headers['authorization'].replace(/Bearer/g, '').replace(/ /g,'')
+            if (token) {
+                const result = await jwt.verify(token)
+                if (result) {
+                    const jwtDecoded = await jwt.decode(token)
+                    req['user'] = await User.findOne({
+                        where: {
+                            id: jwtDecoded.payload._id
+                        }
+                    })
+                    resolve(req['user'])
+                }else {
+                    reject({
+                        code: 401,
+                        flag: 'Unauthorized',
+                        message: 'Access denied, Token is invalid'
+                    })
+                }
+            }else {
+                reject({
+                    code: 401,
+                    flag: 'Unauthorized',
+                    message: 'Access denied, Token is invalid'
+                })
+            }
+        } catch (error) {
+            reject(error)
+        }
+    }),
+    authorized: (object: IAuthorityCheck) => new Promise<any>(async (resolve, reject) => {
+        try {
+            const auth = await AuthorityAccess.findOne({
+                include: [
+                    {
+                        model: Authority,
+                        as: 'Authority',
+                        required: false,
+                        include: [
+                            {
+                                model: UserAuthority,
+                                as: 'UserAuthority',
+                                required: false,
+                                include: [
+                                    {
+                                        model: User,
+                                        as: 'User',
+                                        required: false,
+                                        where: {
+                                            id: object.user.id
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        model: Module,
+                        as: 'Module',
+                        required: false,
+                        where: {
+                            name: object.modules
+                        }
+                    }
+                ]
+            })
+            resolve(auth[object.action.toLowerCase()])
+        } catch (error) {
+            reject(error)
+        }
+    })
+}

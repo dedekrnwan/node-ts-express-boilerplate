@@ -23,7 +23,7 @@ export default {
            reject(error)
        } 
     }),
-    decode: async (token:string):Promise<object> => new Promise<any>(async (resolve, reject) => {
+    decode: async (token:string):Promise<any> => new Promise<any>(async (resolve, reject) => {
         try {
             const result = await jsonwebtoken.decode(token, {
                 complete: true
@@ -35,7 +35,7 @@ export default {
     }),
     verify: async (token:string, publicKey?:string):Promise<boolean> => new Promise<any>(async (resolve, reject) => {
         try {
-            const privateKey = await path.join(__dirname, `../utils/key/private.key`)
+            const privateKey = await path.join(__dirname, `../utils/key/public.key`)
             fs.readFile(privateKey, 'utf-8', (err, result) => {
                 if (err) {
                     reject(err)

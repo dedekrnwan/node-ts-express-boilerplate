@@ -1,5 +1,6 @@
 import { BuildOptions, Model, DataTypes } from 'sequelize'
 import connections from './../../utils/connections'
+import UserAuthority from './userAuthority/userAuthority.model'
 
 export class User extends Model {
     public readonly id:number
@@ -109,4 +110,4 @@ User.sync({
     force: true,
 }).then(() => global.logger.info(`Table ${User.tableName} has been created`))
 
-export default User
+export default User 

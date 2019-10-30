@@ -1,3 +1,5 @@
+import User from "../modules/user/user.model";
+
 export interface Error {
     flag?: string
     message?: string
@@ -13,4 +15,10 @@ export interface IResponse {
     message:string,
     data?:any,
     error?:any
+}
+
+export interface IAuthorityCheck {
+    action: 'AUTHOPE' | 'AUTHINS' | 'AUTHUPD' | 'AUTHDEL' | 'AUTHCONFIRM' | 'AUTHPRINT',
+    modules: string,
+    user?: User
 }
