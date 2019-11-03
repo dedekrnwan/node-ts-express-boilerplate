@@ -1,9 +1,7 @@
 import { Model, DataTypes } from "sequelize";
 import connections from "./../../../utils/connections";
-import User from "../../user/user.model";
-import Authority from "../authority.model";
-import Module from "../../module/module.model";
-
+import Module from "./../../module/module.model";
+import Authority from "./../authority.model";
 export class AuthorityAccess extends Model {
     public readonly id:number
     public name:string
@@ -58,36 +56,38 @@ AuthorityAccess.init({
         type: DataTypes.INTEGER,
         allowNull: true,
     },
-
     moduleId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        // references: {
+        //     model: Module,
+        //     key: 'id'
+        // }
     },
     authorityId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        // references: {
+        //     model: Authority,
+        //     key: 'id'
+        // }
     }
 }, {
     tableName: 'authority_access',
     sequelize: connections('boilerplate'),
     createdAt: 'createdDate',
     updatedAt: 'updatedDate',
+    freezeTableName: true
 })
 
-AuthorityAccess.sync({
-    force: true
-}).then(() => global.logger.info(`Table ${AuthorityAccess.tableName} has been created`)).catch(error => {
-    global.logger.error(error)
-})
 
-AuthorityAccess.belongsTo(Module, {
-    as: 'Module',
-    foreignKey: 'moduleId'
-})
-
-AuthorityAccess.belongsTo(Authority, {
-    as: 'Authority',
-    foreignKey: 'authorityId'
-})
+// AuthorityAccess.sync({
+//     force: true
+// }).then((result) => {
+//     global.logger.info('Table authority access has been synced')
+// }).catch((err) => {
+//     global.logger.error('Table authority access failed to sync')
+//     console.error(err)
+// });
 
 export default AuthorityAccess

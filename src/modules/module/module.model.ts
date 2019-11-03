@@ -45,13 +45,8 @@ Module.init({
     tableName: 'module',
     sequelize: connections('boileplate'),
     createdAt: 'createdDate',
-    updatedAt: 'updatedDate'
-})
-
-Module.sync({
-    force: true
-}).then(() => global.logger.info(`Table ${Module.tableName} has been created`)).catch(error => {
-    global.logger.error(error)
+    updatedAt: 'updatedDate',
+    freezeTableName: true
 })
 
 export default Module

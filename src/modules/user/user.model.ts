@@ -1,6 +1,6 @@
 import { BuildOptions, Model, DataTypes } from 'sequelize'
 import connections from './../../utils/connections'
-import UserAuthority from './userAuthority/userAuthority.model'
+import { UserAuthority } from '../../models'
 
 export class User extends Model {
     public readonly id:number
@@ -104,10 +104,16 @@ User.init({
     tableName: 'user',
     sequelize: connections('boilerplate'),
     createdAt: 'createdDate',
-    updatedAt: 'updatedDate'
+    updatedAt: 'updatedDate',
+    freezeTableName: true
 })
-User.sync({
-    force: true,
-}).then(() => global.logger.info(`Table ${User.tableName} has been created`))
+
+// User.sync({
+//     force: true
+// }).then((result) => {
+//     global.logger.info('Table user has been synced')
+// }).catch((err) => {
+//     global.logger.error('Table user failed to sync')
+// });
 
 export default User 

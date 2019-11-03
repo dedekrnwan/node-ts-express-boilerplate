@@ -53,7 +53,6 @@
     "@types/hapi__joi": "^16.0.2",
     "@types/jsonwebtoken": "^8.3.5",
     "@types/node": "^12.11.6",
-    "@types/sequelize": "^4.28.6",
     "@typescript-eslint/eslint-plugin": "^2.5.0",
     "@typescript-eslint/parser": "^2.5.0",
     "eslint": "^6.5.1",

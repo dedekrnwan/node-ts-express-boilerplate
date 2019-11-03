@@ -1,7 +1,7 @@
 import { Model, DataTypes } from "sequelize";
 import connections from "./../../../utils/connections";
-import { User } from "./../user.model";
-import { Authority } from "../../authority/authority.model";
+import User from "../user.model";
+import Authority from "./../../authority/authority.model";
 
 export class UserAuthority extends Model {
     public readonly id:number
@@ -40,34 +40,35 @@ UserAuthority.init({
 
     userId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: User,
+            key: 'id'
+        }
     },
     authorityId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        // references: {
+        //     model: Authority,
+        //     key: 'id'
+        // }
     }
 }, {
     tableName: 'user_authority',
     sequelize: connections('boilerplate'),
     createdAt: 'createdDate',
     updatedAt: 'updatedDate',
+    freezeTableName: true
 })
 
-UserAuthority.sync({
-    force: true
-}).then(() => global.logger.info(`Table ${UserAuthority.tableName} has been created`)).catch(error => {
-    global.logger.error(error)
-})
-
-UserAuthority.belongsTo(User, {
-    as: "User",
-    foreignKey: "userId"
-})
-UserAuthority.belongsTo(Authority, {
-    as: "Authority",
-    foreignKey: "authorityId",
-})
-
-
+// UserAuthority.sync({
+//     force: true
+// }).then((result) => {
+//     global.logger.info('Table user authority has been synced')
+// }).catch((err) => {
+//     global.logger.error('Table user authority failed to sync')
+//     console.error(err)
+// });
 
 export default UserAuthority

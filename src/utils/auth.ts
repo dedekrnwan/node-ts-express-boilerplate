@@ -37,7 +37,7 @@ export default {
                 })
             }
         } catch (error) {
-            reject(error)
+            reject(new Exception(error))
         }
     }),
     authorized: (object: IAuthorityCheck) => new Promise<any>(async (resolve, reject) => {
@@ -46,17 +46,17 @@ export default {
                 include: [
                     {
                         model: Authority,
-                        as: 'Authority',
+                        // as: 'Authority',
                         required: false,
                         include: [
                             {
                                 model: UserAuthority,
-                                as: 'UserAuthority',
+                                // as: 'UserAuthority',
                                 required: false,
                                 include: [
                                     {
                                         model: User,
-                                        as: 'User',
+                                        // as: 'User',
                                         required: false,
                                         where: {
                                             id: object.user.id
@@ -68,7 +68,7 @@ export default {
                     },
                     {
                         model: Module,
-                        as: 'Module',
+                        // as: 'Module',
                         required: false,
                         where: {
                             name: object.modules
@@ -76,9 +76,25 @@ export default {
                     }
                 ]
             })
-            resolve(auth[object.action.toLowerCase()])
+            if(auth){
+                if(auth[object.action.toLowerCase()]) {
+                    resolve(auth[object.action.toLowerCase()])
+                }else{
+                    reject({
+                        code: 401,
+                        flag: 'Unauthorized',
+                        message: `You doesn't have valid authority`
+                    })
+                }
+            }else{
+                reject({
+                    code: 401,
+                    flag: 'Unauthorized',
+                    message: `You doesn't have valid authority`
+                })
+            }
         } catch (error) {
-            reject(error)
+            reject(new Exception(error))
         }
     })
 }

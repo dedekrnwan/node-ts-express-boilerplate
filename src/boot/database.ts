@@ -1,33 +1,19 @@
 import { Sequelize } from "sequelize"
 import config from "config"
+import {
+    connection, initializeTable
+} from "./../models";
 
 export default (): Promise<any> => new Promise<any>(async (resolve, reject) => {
     try {
-        const databases:any = config.get('database')
-        const promConnections = databases.map(database => new Promise<any>(async(resolve, reject) => {
-            try {
-                const connection = await new Sequelize(
-                    database.db,
-                    database.username,
-                    database.password,
-                    {
-                        host: database.host,
-                        port: database.port,
-                        dialect: database.dialect,
-                        logging: false
-                    })
-                connection.sync({
-                    force: true
-                })
-                global.logger.info(`Connection to ${database.db} successfully connected`)
-                resolve(connection)
-            } catch (error) {
-                reject(error)
-            }
-        }))
-        const connections = await Promise.all(promConnections)
-        // global.connections = connections
-        resolve(connections)
+        const database = await connection.authenticate()
+        global.logger.info(`Connection to database successfully connected`)
+        // const connect = await connection.sync({
+        //     force: true
+        // })
+        await initializeTable()
+        global.logger.info(`Database has been sync`)
+        resolve(database)
     } catch (error) {
         reject(error)
     }

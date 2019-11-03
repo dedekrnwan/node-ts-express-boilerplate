@@ -1,6 +1,5 @@
 import { Model, DataTypes } from "sequelize";
 import connections from "./../../utils/connections";
-// import { Module } from "./../module";
 
 export class Authority extends Model {
     public readonly id:number
@@ -41,11 +40,16 @@ Authority.init({
     sequelize: connections('boilerplate'),
     createdAt: 'createdDate',
     updatedAt: 'updatedDate',
+    freezeTableName: true
 })
-Authority.sync({
-    force: true
-}).then(() => global.logger.info(`Table ${Authority.tableName} has been created`)).catch(error => {
-    global.logger.error(error)
-})
+
+// Authority.sync({
+//     force: true
+// }).then((result) => {
+//     global.logger.info('Table authority has been synced')
+// }).catch((err) => {
+//     global.logger.error('Table authority failed to sync')
+// });
+
 
 export default Authority

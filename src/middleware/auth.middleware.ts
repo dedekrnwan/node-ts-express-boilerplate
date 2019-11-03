@@ -11,7 +11,7 @@ export default {
                 next()
             }
         } catch (error) {
-            next(new Exception(error))
+            next(error)
         }
     },
     authorized : (object: IAuthorityCheck) => async (req: express.Request, res:express.Response, next:express.NextFunction):Promise<any> => {
@@ -24,7 +24,7 @@ export default {
                     next()
             }
         } catch (error) {
-            next(new Exception(error))
+            next(error)
         }
     }
 }

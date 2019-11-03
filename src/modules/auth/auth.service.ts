@@ -1,4 +1,4 @@
-import UserModel from './../user/user.model'
+import User from './../user/user.model'
 import bcryptjs from 'bcryptjs'
 import jwt from './../../utils/jwt'
 import response from '../../utils/response'
@@ -31,7 +31,7 @@ export interface AuthRegister {
 
 export const login = (credentials:AuthLogin):Promise<any> =>  new Promise<any>(async (resolve, reject) => {
     try {
-        const user = await UserModel.findOne({
+        const user = await User.findOne({
             where: {
                 email: credentials.email
             }
@@ -62,17 +62,17 @@ export const login = (credentials:AuthLogin):Promise<any> =>  new Promise<any>(a
 
 export const register = (data:AuthRegister):Promise<any> =>  new Promise<any>(async (resolve, reject) => {
     try {
-        if (await UserModel.count({
+        if (await User.count({
             where: {
                 email: data.email
             }
         }) <= 0) {
-            if (await UserModel.count({
+            if (await User.count({
                 where: {
                     username: data.username
                 }
             }) <= 0) {
-                const user = await UserModel.create(<UserModel>{
+                const user = await User.create({
                     ...data,
                     password: await bcryptjs.hashSync(data.password, await bcryptjs.genSaltSync(10)),
                     createdDate: new Date(),

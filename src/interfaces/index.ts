@@ -1,4 +1,4 @@
-import User from "../modules/user/user.model";
+import User, { IUser } from "../modules/user/user.model";
 
 export interface Error {
     flag?: string
@@ -20,5 +20,5 @@ export interface IResponse {
 export interface IAuthorityCheck {
     action: 'AUTHOPE' | 'AUTHINS' | 'AUTHUPD' | 'AUTHDEL' | 'AUTHCONFIRM' | 'AUTHPRINT',
     modules: string,
-    user?: User
+    user?: IUser
 }
