@@ -80,14 +80,14 @@ AuthorityAccess.init({
     freezeTableName: true
 })
 
+AuthorityAccess.belongsTo(Module, {
+    // as: 'Module',
+    foreignKey: 'moduleId'
+})
 
-// AuthorityAccess.sync({
-//     force: true
-// }).then((result) => {
-//     global.logger.info('Table authority access has been synced')
-// }).catch((err) => {
-//     global.logger.error('Table authority access failed to sync')
-//     console.error(err)
-// });
+AuthorityAccess.belongsTo(Authority, {
+    // as: 'Authority',
+    foreignKey: 'authorityId'
+})
 
 export default AuthorityAccess

@@ -2,6 +2,9 @@ import User from './../user/user.model'
 import bcryptjs from 'bcryptjs'
 import jwt from './../../utils/jwt'
 import response from '../../utils/response'
+import { 
+    authLogin
+ } from "./auth.publisher";
 
 export interface AuthLogin {
     email:string,
@@ -43,6 +46,7 @@ export const login = (credentials:AuthLogin):Promise<any> =>  new Promise<any>(a
                 const token = await jwt.sign({
                     _id: user.id
                 })
+                const pub = await authLogin(user)
                 resolve(token)
             }else {
                 reject(response.badRequest({

@@ -108,12 +108,10 @@ User.init({
     freezeTableName: true
 })
 
-// User.sync({
-//     force: true
-// }).then((result) => {
-//     global.logger.info('Table user has been synced')
-// }).catch((err) => {
-//     global.logger.error('Table user failed to sync')
-// });
+User.hasMany(UserAuthority, {
+    foreignKey: 'userId',
+    sourceKey: 'id',
+    // as: 'UserAuthority'
+})
 
 export default User 

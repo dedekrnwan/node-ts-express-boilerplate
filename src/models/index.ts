@@ -7,44 +7,6 @@ import connections from "../utils/connections";
 
 const connection = connections('boilerplate')
 
-
-User.hasMany(UserAuthority, {
-    foreignKey: 'userId',
-    sourceKey: 'id',
-    // as: 'UserAuthority'
-})
-
-Module.hasMany(AuthorityAccess, {
-    foreignKey: 'moduleId',
-    sourceKey: 'id',
-    // as: 'AuthorityAccess'
-})
-
-Authority.hasMany(UserAuthority,{
-    foreignKey: 'authorityId',
-    sourceKey: 'id',
-    // as: ' Authority'
-})
-
-UserAuthority.belongsTo(User, {
-    // as: "User",
-    foreignKey: "userId"
-})
-UserAuthority.belongsTo(Authority, {
-    // as: "Authority",
-    foreignKey: "authorityId",
-})
-
-AuthorityAccess.belongsTo(Module, {
-    // as: 'Module',
-    foreignKey: 'moduleId'
-})
-
-AuthorityAccess.belongsTo(Authority, {
-    // as: 'Authority',
-    foreignKey: 'authorityId'
-})
-
 const initializeTable = () => new Promise<any>(async (resolve, reject) => {
     try {
         await Module.sync({

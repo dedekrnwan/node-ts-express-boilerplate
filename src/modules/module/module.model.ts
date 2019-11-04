@@ -1,5 +1,6 @@
 import { Model, DataTypes } from "sequelize"    
 import connections from "./../../utils/connections"
+import AuthorityAccess from "./../authority/authority.model";
 
 export class Module extends Model {
     public readonly id:number
@@ -47,6 +48,12 @@ Module.init({
     createdAt: 'createdDate',
     updatedAt: 'updatedDate',
     freezeTableName: true
+})
+
+Module.hasMany(AuthorityAccess, {
+    foreignKey: 'moduleId',
+    sourceKey: 'id',
+    // as: 'AuthorityAccess'
 })
 
 export default Module

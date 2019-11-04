@@ -62,13 +62,13 @@ UserAuthority.init({
     freezeTableName: true
 })
 
-// UserAuthority.sync({
-//     force: true
-// }).then((result) => {
-//     global.logger.info('Table user authority has been synced')
-// }).catch((err) => {
-//     global.logger.error('Table user authority failed to sync')
-//     console.error(err)
-// });
+UserAuthority.belongsTo(User, {
+    // as: "User",
+    foreignKey: "userId"
+})
+UserAuthority.belongsTo(Authority, {
+    // as: "Authority",
+    foreignKey: "authorityId",
+})
 
 export default UserAuthority

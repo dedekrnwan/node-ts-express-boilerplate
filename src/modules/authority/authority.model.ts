@@ -1,5 +1,6 @@
 import { Model, DataTypes } from "sequelize";
 import connections from "./../../utils/connections";
+import UserAuthority from "./../user/userAuthority/userAuthority.model";
 
 export class Authority extends Model {
     public readonly id:number
@@ -43,13 +44,10 @@ Authority.init({
     freezeTableName: true
 })
 
-// Authority.sync({
-//     force: true
-// }).then((result) => {
-//     global.logger.info('Table authority has been synced')
-// }).catch((err) => {
-//     global.logger.error('Table authority failed to sync')
-// });
-
+Authority.hasMany(UserAuthority,{
+    foreignKey: 'authorityId',
+    sourceKey: 'id',
+    // as: ' Authority'
+})
 
 export default Authority
