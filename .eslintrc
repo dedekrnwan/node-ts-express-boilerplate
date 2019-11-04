@@ -26,7 +26,8 @@
         "@typescript-eslint/no-useless-constructor": "error",
         "indent": [2, "tab"],
         "max-len": ["error", { "code": 200 }],
-        "no-mixed-spaces-and-tabs": "off"
+        "no-mixed-spaces-and-tabs": "off",
+        "import/no-named-as-default": false
     },
     "settings": {
         "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
