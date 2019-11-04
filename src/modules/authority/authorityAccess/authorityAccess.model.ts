@@ -1,7 +1,5 @@
 import { Model, DataTypes } from "sequelize";
 import connections from "./../../../utils/connections";
-import Module from "./../../module/module.model";
-import Authority from "./../authority.model";
 export class AuthorityAccess extends Model {
     public readonly id:number
     public name:string
@@ -78,16 +76,6 @@ AuthorityAccess.init({
     createdAt: 'createdDate',
     updatedAt: 'updatedDate',
     freezeTableName: true
-})
-
-AuthorityAccess.belongsTo(Module, {
-    // as: 'Module',
-    foreignKey: 'moduleId'
-})
-
-AuthorityAccess.belongsTo(Authority, {
-    // as: 'Authority',
-    foreignKey: 'authorityId'
 })
 
 export default AuthorityAccess

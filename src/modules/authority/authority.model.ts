@@ -1,6 +1,5 @@
 import { Model, DataTypes } from "sequelize";
 import connections from "./../../utils/connections";
-import UserAuthority from "./../user/userAuthority/userAuthority.model";
 
 export class Authority extends Model {
     public readonly id:number
@@ -42,12 +41,6 @@ Authority.init({
     createdAt: 'createdDate',
     updatedAt: 'updatedDate',
     freezeTableName: true
-})
-
-Authority.hasMany(UserAuthority,{
-    foreignKey: 'authorityId',
-    sourceKey: 'id',
-    // as: ' Authority'
 })
 
 export default Authority

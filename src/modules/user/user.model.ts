@@ -1,6 +1,5 @@
-import { BuildOptions, Model, DataTypes } from 'sequelize'
+import { Model, DataTypes } from 'sequelize'
 import connections from './../../utils/connections'
-import { UserAuthority } from '../../models'
 
 export class User extends Model {
     public readonly id:number
@@ -106,12 +105,6 @@ User.init({
     createdAt: 'createdDate',
     updatedAt: 'updatedDate',
     freezeTableName: true
-})
-
-User.hasMany(UserAuthority, {
-    foreignKey: 'userId',
-    sourceKey: 'id',
-    // as: 'UserAuthority'
 })
 
 export default User 

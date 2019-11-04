@@ -1,7 +1,6 @@
 import { Model, DataTypes } from "sequelize";
 import connections from "./../../../utils/connections";
 import User from "../user.model";
-import Authority from "./../../authority/authority.model";
 
 export class UserAuthority extends Model {
     public readonly id:number
@@ -60,15 +59,6 @@ UserAuthority.init({
     createdAt: 'createdDate',
     updatedAt: 'updatedDate',
     freezeTableName: true
-})
-
-UserAuthority.belongsTo(User, {
-    // as: "User",
-    foreignKey: "userId"
-})
-UserAuthority.belongsTo(Authority, {
-    // as: "Authority",
-    foreignKey: "authorityId",
 })
 
 export default UserAuthority
