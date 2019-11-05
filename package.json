@@ -5,7 +5,7 @@
   "main": "./dist/src/lib/server.js",
   "scripts": {
     "build": "rm -rf ./dist/* && tsc",
-    "start": "node . ",
+    "start": "node . | pino-socket -m tcp -a 127.0.0.1 -p 5000",
     "dev": "nodemon",
     "production": "npm run build && npm run start",
     "test": "jest",
@@ -28,6 +28,7 @@
   "license": "ISC",
   "dependencies": {
     "@dedekrnwan/decorators-express": "^2.0.4",
+    "@elastic/elasticsearch": "^7.4.0",
     "@hapi/joi": "^16.1.7",
     "bcryptjs": "^2.4.3",
     "config": "^3.2.4",
@@ -41,7 +42,9 @@
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
     "pino": "^5.13.5",
+    "pino-http": "^4.3.0",
     "pino-multi-stream": "^4.2.0",
+    "pino-socket": "^2.0.0",
     "pino-tee": "^0.2.2",
     "sequelize": "^5.21.1"
   },
