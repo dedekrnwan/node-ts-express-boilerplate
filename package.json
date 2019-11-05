@@ -40,6 +40,7 @@
     "localenv": "^0.2.2",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
+    "pino": "^5.13.5",
     "pino-multi-stream": "^4.2.0",
     "pino-tee": "^0.2.2",
     "sequelize": "^5.21.1"
@@ -59,7 +60,10 @@
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.16.0",
     "nodemon": "^1.19.4",
     "prettier": "^1.18.2"
   }

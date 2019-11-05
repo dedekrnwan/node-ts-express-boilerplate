@@ -20,13 +20,17 @@
         "no-tabs": "off",
         "linebreak-style": ["error", "windows"],
         "@typescript-eslint/no-namespace": "off",
-        "@typescript-eslint/no-unused-vars": "error",
+        "@typescript-eslint/no-unused-vars": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/interface-name-prefix": "off",
         "@typescript-eslint/no-useless-constructor": "error",
         "indent": [2, "tab"],
         "max-len": ["error", { "code": 200 }],
-        "no-mixed-spaces-and-tabs": "off"
+        "no-mixed-spaces-and-tabs": "off",
+        "import/no-named-as-default": 0,
+        "prefer-promise-reject-errors": "off",
+        "import/no-dynamic-require": 0,
+        "global-require":"off"
     },
     "settings": {
         "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
