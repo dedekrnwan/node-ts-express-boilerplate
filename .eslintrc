@@ -30,7 +30,8 @@
         "import/no-named-as-default": 0,
         "prefer-promise-reject-errors": "off",
         "import/no-dynamic-require": 0,
-        "global-require":"off"
+        "global-require":"off",
+        "no-plusplus":"off"
     },
     "settings": {
         "import/extensions": [".js", ".jsx", ".ts", ".tsx"],

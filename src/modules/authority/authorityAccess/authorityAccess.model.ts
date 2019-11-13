@@ -71,7 +71,7 @@ AuthorityAccess.init({
 	},
 }, {
 	tableName: 'authority_access',
-	sequelize: connections('boilerplate'),
+	sequelize: connections('postgres'),
 	createdAt: 'createdDate',
 	updatedAt: 'updatedDate',
 	freezeTableName: true,
