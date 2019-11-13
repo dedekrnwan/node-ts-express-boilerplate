@@ -11,7 +11,7 @@ import Exception from './exception';
 export default {
 	authenticated: (req: express.Request): Promise<any> => new Promise<any>(async (resolve, reject) => {
 		try {
-			const token: string = req.headers.authorization.replace(/Bearer/g, '').replace(/ /g, '');
+			const token: string = req.headers.authorization ? req.headers.authorization.replace(/Bearer/g, '').replace(/ /g, '') : '';
 			if (token) {
 				const result = await jwt.verify(token);
 				if (result) {
