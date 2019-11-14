@@ -1,6 +1,73 @@
-version: "3.6"
+version: '3.6'
 
-services:
+services: 
+  elasticsearch:
+    container_name: elk_elasticsearch
+    build:
+      context: ./docker/elasticsearch
+      args:
+        ELK_VERSION: 7.4.0
+    volumes:
+      - type: bind
+        source: ./docker/elasticsearch/config/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+        read_only: true
+      - type: volume
+        source: elk_elasticsearch
+        target: /usr/share/elasticsearch/data
+    environment:
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    ports:
+      - 9200:9200
+    networks: 
+      - default
+  logstash:
+    container_name: elk_logstash
+    build:
+      context: ./docker/logstash
+      args:
+        ELK_VERSION: 7.4.0
+    volumes:
+      - type: bind
+        source: ./docker/logstash/config/logstash.yml
+        target: /usr/share/logstash/config/logstash.yml
+        read_only: false
+      - type: bind
+        source: ./docker/logstash/pipeline
+        target: /usr/share/logstash/pipeline
+        read_only: false
+    environment:
+      - "LS_JAVA_OPTS=-Xmx256m -Xms256m"
+    depends_on:
+      - elasticsearch
+    links:
+      - elasticsearch
+    ports:
+      - "5000:5000"
+      - "9600:9600"
+    networks: 
+      - default
+  kibana:
+    container_name: elk_kibana
+    build:
+      context: ./docker/kibana/
+      args:
+        ELK_VERSION: 7.4.0
+    ports:
+      - "5601:5601"
+    restart: unless-stopped
+    links:
+      - elasticsearch
+    depends_on:
+      - elasticsearch
+      - logstash
+    volumes:
+      - type: bind
+        source: ./docker/kibana/config/kibana.yml
+        target: /usr/share/kibana/config/kibana.yml
+        read_only: true 
+    networks: 
+      - default
   app:
     container_name: core_app
     build: ./
@@ -46,9 +113,10 @@ services:
         target: /var/lib/postgresql
     networks: 
       - default
-networks: 
-  default:
-    driver: bridge
 volumes:
   core_redis:
   core_postgres:
+  elk_elasticsearch:
+networks: 
+  default:
+    driver: bridge
