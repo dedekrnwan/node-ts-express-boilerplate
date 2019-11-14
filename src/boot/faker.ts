@@ -1,6 +1,6 @@
 import faker from 'faker';
 import bcryptjs from 'bcryptjs';
-import UserModel, { User } from '../modules/user/user.model';
+import UserModel from '../modules/user/user.model';
 
 export default (): Promise<any> => new Promise(async (resolve, reject) => {
 	try {
@@ -8,7 +8,7 @@ export default (): Promise<any> => new Promise(async (resolve, reject) => {
 			for (let index = 0; index < 5; index++) {
 				const card = faker.helpers.userCard();
 				const password = bcryptjs.hashSync('secret', bcryptjs.genSaltSync(10));
-				UserModel.create<UserModel>({
+				UserModel.create({
 					name: card.name,
 					username: card.username,
 					email: card.email,
@@ -24,7 +24,6 @@ export default (): Promise<any> => new Promise(async (resolve, reject) => {
 					global.logger.info({
 						message: 'User has been generated',
 						result,
-					});
 				}).catch((err) => {
 					global.logger.error(err);
 				});
