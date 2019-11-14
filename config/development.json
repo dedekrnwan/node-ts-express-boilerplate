@@ -12,9 +12,9 @@
   },
   "database": [
     {
-      "boilerplate": null,
-      "host": "localhost",
-      "db": "boilerplate",
+      "postgres": null,
+      "host": "database_postgres",
+      "db": "postgres",
       "username": "postgres",
       "password": "root",
       "port": 5432,
@@ -70,7 +70,7 @@
     },
     "redis": {
       "host": "redis",
-      "port": 6473,
+      "port": 6379,
       "password": "secret"
     }
   }

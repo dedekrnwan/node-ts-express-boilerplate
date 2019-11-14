@@ -52,7 +52,7 @@ UserAuthority.init({
 	},
 }, {
 	tableName: 'user_authority',
-	sequelize: connections('boilerplate'),
+	sequelize: connections('postgres'),
 	createdAt: 'createdDate',
 	updatedAt: 'updatedDate',
 	freezeTableName: true,

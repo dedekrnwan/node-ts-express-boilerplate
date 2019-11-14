@@ -20,11 +20,10 @@ export default (): Promise<any> => new Promise(async (resolve, reject) => {
 					verificationDate: null,
 					createdDate: new Date(),
 					createdId: null,
-				}).then((user) => {
+				}).then((result) => {
 					global.logger.info({
 						message: 'User has been generated',
-						user,
-					});
+						result,
 				}).catch((err) => {
 					global.logger.error(err);
 				});
