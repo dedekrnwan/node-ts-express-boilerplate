@@ -24,6 +24,7 @@ export default (): Promise<any> => new Promise(async (resolve, reject) => {
 					global.logger.info({
 						message: 'User has been generated',
 						result,
+					})
 				}).catch((err) => {
 					global.logger.error(err);
 				});

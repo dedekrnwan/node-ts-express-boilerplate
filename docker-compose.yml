@@ -76,7 +76,7 @@ services:
     env_file: .env
     depends_on:
       - redis
-      - database_postgres
+      - database
     volumes:
       - type: bind
         source: .
@@ -96,7 +96,7 @@ services:
     ports:
       - "6379:6379"
     command: ["redis-server", "--bind", "redis", "--port", "6379", "--requirepass","secret", "--appendonly","yes"]
-  database_postgres:
+  database:
     # image: postgres
     build:
       context: ./docker/postgresql
