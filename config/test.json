@@ -12,15 +12,18 @@
   },
   "database": [
     {
-      "postgres": null,
-      "host": "database_postgres",
-      "db": "postgres",
+      "boilerplate": null,
+      "host": "localhost",
+      "db": "boilerplate",
       "username": "postgres",
       "password": "root",
       "port": 5432,
       "dialect": "postgres"
     }
   ],
+  "elasticsearch": {
+    "host": "http://localhost:9200"
+  },
   "jwt": {
     "options": {
       "create": {
@@ -59,19 +62,9 @@
       "callback_url": "http://localhost:3000/auth/github/callback"
     }
   },
-  "services": {
-    "rabbitmq": {
-      "user": "rabbitmq",
-      "pass": "rabbitmq",
-      "host": "localhost"
-    },
-    "elasticsearch": {
-      "host": "http://localhost:9200"
-    },
-    "redis": {
-      "host": "redis",
-      "port": 6379,
-      "password": "secret"
-    }
+  "rabbitmq": {
+    "user": "rabbitmq",
+    "pass": "rabbitmq",
+    "host": "localhost"
   }
 }

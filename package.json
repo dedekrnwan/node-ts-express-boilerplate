@@ -5,7 +5,7 @@
   "main": "./dist/src/lib/server.js",
   "scripts": {
     "build": "rm -rf ./dist/* && tsc",
-    "start": "node . ",
+    "start": "node . | pino-socket -m tcp -a 127.0.0.1 -p 5000",
     "dev": "nodemon",
     "production": "npm run build && npm run start",
     "test": "jest",
@@ -28,6 +28,7 @@
   "license": "ISC",
   "dependencies": {
     "@dedekrnwan/decorators-express": "^2.0.4",
+    "@elastic/elasticsearch": "^7.4.0",
     "@hapi/joi": "^16.1.7",
     "bcryptjs": "^2.4.3",
     "config": "^3.2.4",
@@ -40,8 +41,12 @@
     "localenv": "^0.2.2",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
+    "pino": "^5.13.5",
+    "pino-http": "^4.3.0",
     "pino-multi-stream": "^4.2.0",
+    "pino-socket": "^2.0.0",
     "pino-tee": "^0.2.2",
+    "redis": "^2.8.0",
     "sequelize": "^5.21.1"
   },
   "devDependencies": {
@@ -51,16 +56,25 @@
     "@types/express": "^4.17.1",
     "@types/faker": "^4.1.6",
     "@types/hapi__joi": "^16.0.2",
+    "@types/jest": "^24.0.21",
     "@types/jsonwebtoken": "^8.3.5",
     "@types/node": "^12.11.6",
+    "@types/redis": "^2.8.14",
+    "@types/supertest": "^2.0.8",
     "@typescript-eslint/eslint-plugin": "^2.5.0",
     "@typescript-eslint/parser": "^2.5.0",
     "eslint": "^6.5.1",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.16.0",
+    "jest": "^24.9.0",
     "nodemon": "^1.19.4",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "supertest": "^4.0.2",
+    "ts-jest": "^24.1.0"
   }
 }
