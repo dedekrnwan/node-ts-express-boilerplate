@@ -4,9 +4,11 @@ import {
 } from '@dedekrnwan/decorators-express';
 import * as Middlewares from './middlewares';
 import AuthController from '../modules/auth/auth.controller';
+import UserController from '../modules/user/user.controller';
 
 const controllers = [
 	AuthController,
+	UserController,
 ];
 
 const middlewares = (apps: express.Application): Promise<express.Application> => new Promise<express.Application>(async (resolve, reject) => {

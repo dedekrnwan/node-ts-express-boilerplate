@@ -119,7 +119,7 @@ User.init({
 	},
 }, {
 	tableName: 'user',
-	sequelize: connections('boilerplate'),
+	sequelize: connections('postgres'),
 	createdAt: 'createdDate',
 	updatedAt: 'updatedDate',
 	freezeTableName: true,

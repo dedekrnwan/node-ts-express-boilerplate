@@ -43,7 +43,7 @@ Authority.init({
 	},
 }, {
 	tableName: 'authority',
-	sequelize: connections('boilerplate'),
+	sequelize: connections('postgres'),
 	createdAt: 'createdDate',
 	updatedAt: 'updatedDate',
 	freezeTableName: true,

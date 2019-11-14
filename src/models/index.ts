@@ -5,7 +5,7 @@ import AuthorityAccess from '../modules/authority/authorityAccess/authorityAcces
 import Module from '../modules/module/module.model';
 import connections from '../utils/connections';
 
-const connection = connections('boilerplate');
+const connection = connections('postgres');
 
 User.hasMany(UserAuthority, {
 	foreignKey: 'userId',
