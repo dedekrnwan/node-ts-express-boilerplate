@@ -72,6 +72,18 @@
       "host": "redis",
       "port": 6379,
       "password": "secret"
+    },
+    "mailer": {
+      "host": "smtp.mailtrap.io",
+      "port": 2525,
+      "secure": true,
+      "auth": {
+        "user": "16517db7a8042b",
+        "password": "76e4e20d281f74" 
+      },
+      "options": {
+        "from": "admin@nakoding.com"
+      }
     }
   }
 }
