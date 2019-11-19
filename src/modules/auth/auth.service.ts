@@ -81,7 +81,10 @@ export const register = (data: AuthRegister): Promise<any> => new Promise<any>(a
 				const token = await jwt.sign({
 					id: user.id,
 				});
-				resolve(token);
+				resolve({
+					token,
+					user,
+				});
 			} else {
 				reject(response.badRequest({
 					message: 'Username already exists',

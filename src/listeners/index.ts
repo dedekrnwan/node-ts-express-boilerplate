@@ -7,12 +7,18 @@ export default (): Promise<Events> => new Promise<Events>(async (resolve, reject
 		const eventEmitter = new Events();
 		const bootDir = path.join(__dirname, '../listeners');
 		const dirList = await fs.readdirSync(bootDir);
-		const promiseDirList = dirList.map((dirName) => new Promise(async (res, rej) => {
+		const promiseDirList = dirList.map((dirName) => new Promise((res, rej) => {
 			try {
 				const fName = path.join(bootDir, dirName);
 				if (dirName.replace(/.ts/g, '') !== 'index') {
 					eventEmitter.on(dirName.replace(/.ts/g, ''), (data) => {
-						const file = (require(fName).default) ? require(fName).default(data) : null;
+						setImmediate(() => {
+							const file = (require(fName).default) ? require(fName).default(data).then((result) => {
+								global.logger.info(result);
+							}).catch((err) => {
+								global.logger.error(err);
+							}) : null;
+						});
 					});
 				}
 				res(dirName.replace(/.ts/g, ''));
@@ -20,8 +26,8 @@ export default (): Promise<Events> => new Promise<Events>(async (resolve, reject
 				rej(error);
 			}
 		}));
-		const result = await Promise.all(promiseDirList);
-		global.logger.info(`listening event ${JSON.stringify(result)}`);
+		// const result = await Promise.all(promiseDirList);
+		global.logger.info('listening event');
 		resolve(eventEmitter);
 	} catch (error) {
 		reject(error);

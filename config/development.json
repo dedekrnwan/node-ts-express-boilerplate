@@ -84,6 +84,10 @@
       "options": {
         "from": "admin@nakoding.com"
       }
+    },
+    "twilio": {
+      "account_id": "AC6fbebbd7cd16c98923ce5030155c174b",
+      "auth_token": "586bc5fe090fa031eff58723ede5c236"
     }
   }
 }
