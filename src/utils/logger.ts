@@ -1,6 +1,8 @@
 import pino from 'pino';
 import childProcess from 'child_process';
 import pinoMultiStream, { multistream } from 'pino-multi-stream';
+import pinoPretty from 'pino-pretty';
+import { getPrettyStream as pinoGetPrettyStream } from 'pino/lib/tools';
 
 const cwd = process.cwd();
 const logPath = `${cwd}/logs`;
@@ -20,9 +22,11 @@ const teeStream = childProcess.spawn(
 	},
 );
 
+const prettyConsoleStream = pinoGetPrettyStream({ translateTime: true }, pinoPretty, process.stdout);
+
 export const stream = multistream([
 	{ stream: pinoMultiStream.multistream() },
-	{ stream: process.stdout },
+	{ stream: prettyConsoleStream },
 	{ stream: teeStream.stdin },
 ]);
 

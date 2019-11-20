@@ -1,8 +1,10 @@
 import User from '../modules/user/user.model';
 import UserAuthority from '../modules/user/userAuthority/userAuthority.model';
+import UserVerification from '../modules/user/userVerification/userVerification.model';
 import Authority from '../modules/authority/authority.model';
 import AuthorityAccess from '../modules/authority/authorityAccess/authorityAccess.model';
 import Module from '../modules/module/module.model';
+
 import connections from '../utils/connections';
 
 const connection = connections('postgres');
@@ -11,6 +13,14 @@ User.hasMany(UserAuthority, {
 	foreignKey: 'userId',
 	sourceKey: 'id',
 	// as: 'UserAuthority'
+});
+User.hasMany(UserVerification, {
+	foreignKey: 'userId',
+	sourceKey: 'id',
+});
+
+UserVerification.belongsTo(User, {
+	foreignKey: 'userId',
 });
 
 Module.hasMany(AuthorityAccess, {
@@ -56,6 +66,12 @@ const initializeTable = (): Promise<any> => new Promise<any>(async (resolve, rej
 		});
 		global.logger.info('Table user has been synced');
 
+		await UserVerification.sync({
+			force: true,
+		});
+		global.logger.info('Table user verification has been synced');
+
+
 		await Authority.sync({
 			force: true,
 		});
@@ -82,6 +98,7 @@ export {
 	initializeTable,
 	connection,
 	User,
+	UserVerification,
 	Authority,
 	Module,
 	UserAuthority,

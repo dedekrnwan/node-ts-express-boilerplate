@@ -10,6 +10,7 @@ RUN npm i
 
 COPY . /var/www/app
 
+RUN chmod +x /var/www/app/scripts/start.sh
 RUN npm run build
 
-CMD ./scripts/start.sh
+CMD ["./scripts/start.sh"]
