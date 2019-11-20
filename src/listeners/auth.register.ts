@@ -28,8 +28,8 @@ const sendSmsVerificationNumber = (to: string): Promise<any> => new Promise<any>
 
 export default (data): Promise<any> => new Promise<any>(async (resolve, reject) => {
 	try {
-		const promMail = sendMailWelcomeMessage(data.user.email || 'dekur98@gmail.com');
-		const promSms = sendSmsVerificationNumber(data.user.phone || '+6285894725654');
+		const promMail = sendMailWelcomeMessage(data.user.email);
+		const promSms = sendSmsVerificationNumber(data.user.phone);
 		const result = await Promise.all([
 			promMail,
 			promSms,

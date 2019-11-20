@@ -87,7 +87,8 @@
     },
     "twilio": {
       "account_id": "AC6fbebbd7cd16c98923ce5030155c174b",
-      "auth_token": "586bc5fe090fa031eff58723ede5c236"
+      "auth_token": "586bc5fe090fa031eff58723ede5c236",
+      "sid": "VA6906af993bcb9382a6de525f70d51af3"
     }
   }
 }

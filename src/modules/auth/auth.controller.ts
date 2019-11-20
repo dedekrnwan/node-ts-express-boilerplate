@@ -12,7 +12,7 @@ import eventEmitter from '../../listeners';
 export default class AuthController {
 	private EventEmitter
 
-	public EVENT_USER_REGISTER = 'user.register'
+	public EVENT_USER_REGISTER = 'auth.register'
 
 	constructor() {
 		eventEmitter().then((eem) => {
