@@ -5,6 +5,7 @@ import config from 'config';
 import App from './app';
 import listeners from '../listeners';
 import logger from '../utils/logger';
+import redisService from '../services/redis.service';
 
 declare global {
     namespace NodeJS {

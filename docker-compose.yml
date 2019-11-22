@@ -133,6 +133,8 @@ services:
       - database
       - apm-server
 volumes:
+  core_redis:
+  core_postgres:
   elk_elasticsearch:
   elk_postgres:
 networks: 
