@@ -1,93 +1,26 @@
 version: '3.6'
 
 services: 
-  # elasticsearch:
-  #   container_name: nakoding_elasticsearch
-  #   build:
-  #     context: ./docker/elasticsearch
-  #     args:
-  #       ELK_VERSION: 7.4.0
-  #   volumes:
-  #     - type: bind
-  #       source: ./docker/elasticsearch/config/elasticsearch.yml
-  #       target: /usr/share/elasticsearch/config/elasticsearch.yml
-  #       read_only: true
-  #     - type: volume
-  #       source: nakoding_elasticsearch
-  #       target: /usr/share/elasticsearch/data
-  #   environment:
-  #     ES_JAVA_OPTS: "-Xms512m -Xmx512m"
-  #   ports:
-  #     - 9200:9200
-  #   networks: 
-  #     - default
-  # logstash:
-  #   container_name: nakoding_logstash
-  #   build:
-  #     context: ./docker/logstash
-  #     args:
-  #       ELK_VERSION: 7.4.0
-  #   volumes:
-  #     - type: bind
-  #       source: ./docker/logstash/config/logstash.yml
-  #       target: /usr/share/logstash/config/logstash.yml
-  #       read_only: false
-  #     - type: bind
-  #       source: ./docker/logstash/pipeline
-  #       target: /usr/share/logstash/pipeline
-  #       read_only: false
-  #   environment:
-  #     - "LS_JAVA_OPTS=-Xmx256m -Xms256m"
-  #   depends_on:
-  #     - elasticsearch
-  #   links:
-  #     - elasticsearch
-  #   ports:
-  #     - "5000:5000"
-  #     - "9600:9600"
-  #   networks: 
-  #     - default
-  # kibana:
-  #   container_name: nakoding_kibana
-  #   build:
-  #     context: ./docker/kibana/
-  #     args:
-  #       ELK_VERSION: 7.4.0
-  #   ports:
-  #     - "5601:5601"
-  #   restart: unless-stopped
-  #   links:
-  #     - elasticsearch
-  #   depends_on:
-  #     - elasticsearch
-  #     - logstash
-  #   volumes:
-  #     - type: bind
-  #       source: ./docker/kibana/config/kibana.yml
-  #       target: /usr/share/kibana/config/kibana.yml
-  #       read_only: true 
-  #   networks: 
-  #     - default
-  # database:
-  #   # image: postgres
-  #   build:
-  #     context: ./docker/postgresql
-  #   ports:
-  #     - "5434:5432"
-  #   container_name: nakoding_database
-  #   environment: 
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: root
-  #     POSTGRES_DB: postgres
-  #   volumes:
-  #     - type: volume
-  #       source: nakoding_postgres
-  #       target: /var/lib/postgresql
-  #   networks: 
-  #     - default
+  database:
+    # image: postgres
+    build:
+      context: ./docker/postgresql
+    ports:
+      - "5434:5432"
+    container_name: ed_database
+    environment: 
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: postgres
+    volumes:
+      - type: volume
+        source: ed_postgres
+        target: /var/lib/postgresql
+    networks: 
+      - default
   rabbitmq:
     image: rabbitmq:3-management
-    container_name: core_rabbitmq
+    container_name: ed_rabbitmq
     environment:
       - RABBITMQ_ERLANG_COOKIE: 'secret_cookie'
     ports:
@@ -103,106 +36,26 @@ services:
       RABBITMQ_DEFAULT_VHOST: /
     networks: 
       - default
-  # api:
-  #   build: 
-  #     context: .
-  #   depends_on:
-  #     - database
-  #     - elasticsearch
-  #     - logstash
-  #   container_name: nakoding_api
-  #   restart: unless-stopped
-  #   environment:
-  #       NODE_ENV: production
-  #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - .:/usr/src/app
-  #     - /usr/src/app/node_modules
-  #   command: npm run production
-  #   networks: 
-  #     - default
-  #######################################
-  # Kong database migration
-  #######################################
-  # kong-migration:
-  #   container_name: nakoding_kong_migration
-  #   image: kong:latest
-  #   command: kong migrations bootstrap && kong migrations up
-  #   depends_on:
-  #     - database
-  #   environment:
-  #     KONG_DATABASE: postgres
-  #     KONG_PG_HOST: database
-  #     KONG_PG_DATABASE: kong
-  #     KONG_PG_USER: postgres
-  #     KONG_PG_PASSWORD: root
-  #   links:
-  #     - database
-  #   networks: 
-  #     - default
-  #   restart: "on-failure"
-  # kong:
-  #   container_name: nakoding_kong
-  #   image: kong:latest
-  #   restart: always
-  #   networks: 
-  #     - default
-  #   environment:
-  #     KONG_DATABASE: postgres
-  #     KONG_PG_HOST: database
-  #     KONG_PROXY_LISTEN: 0.0.0.0:8000
-  #     KONG_PROXY_LISTEN_SSL: 0.0.0.0:8443
-  #     KONG_ADMIN_LISTEN: 0.0.0.0:8001
-
-  #     KONG_PG_DATABASE: kong
-  #     KONG_PG_USER: postgres
-  #     KONG_PG_PASSWORD: root
-  #   depends_on:
-  #     - database
-  #     - kong-migration
-  #   healthcheck:
-  #     test: ["CMD", "curl", "-f", "http://kong:8001"]
-  #     interval: 5s
-  #     timeout: 2s
-  #     retries: 15
-  #   ports:
-  #     - "8001:8001"
-  #     - "8000:8000"
-  # konga-prepare:
-  #   container_name: nakoding_konga_prepare
-  #   image: pantsel/konga:next
-  #   command: "-c prepare -a postgres -u postgresql://postgres:root@database:5434/konga"
-  #   restart: on-failure
-  #   links:
-  #     - database
-  #   depends_on:
-  #     - database
-  #   networks:
-  #     - default
-  # konga:
-  #   container_name: nakoding_konga
-  #   build: ./docker/konga
-  #   # command: pantsel/konga -c prepare -a postgres -u postgresql://postgres:root@database:5434/konga
-  #   restart: always
-  #   networks:
-  #       - default
-  #   environment:
-  #     DB_ADAPTER: postgres
-  #     DB_HOST: database
-  #     DB_USER: postgres
-  #     TOKEN_SECRET: km1GUr4RkcQD7DewhJPNXrCuZwcKmqjb
-  #     DB_DATABASE: konga
-  #     DB_PASSWORD: root
-  #     NODE_ENV: production
-  #     KONGA_HOOK_TIMEOUT: 120000
-  #   depends_on:
-  #     - database
-  #     # - konga-prepare
-  #   ports:
-  #     - "1337:1337"
+  app:
+    build: 
+      context: .
+    depends_on:
+      - database
+      - rabbitmq
+    container_name: ed_app
+    restart: unless-stopped
+    environment:
+        NODE_ENV: production
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run production
+    networks: 
+      - default
 volumes:
-  nakoding_elasticsearch:
+  ed_postgres:
 networks: 
   default:
     driver: bridge
