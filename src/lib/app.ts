@@ -5,9 +5,12 @@ import * as fs from 'fs';
 import config from 'config';
 import Events from 'events';
 import kernel from './kernel';
+import apmServerService from '../services/apm-server.service';
 
 export default class App {
     app: express.Application
+
+    apm: any
 
     server: any
 
@@ -65,8 +68,8 @@ export default class App {
 
     run = (port: number): Promise<any> => new Promise<any>(async (resolve, reject) => {
     	try {
-    		this.server = http.createServer(this.app);
-    		this.server.listen(port, () => {
+    		// this.server = http.createServer(this.app);
+    		this.app.listen(port, () => {
     			global.logger.info(`${config.get('server.name')} listening on the port ${port}`);
     			resolve(this.server);
     		}).on('error', (error) => {

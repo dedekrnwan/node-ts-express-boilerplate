@@ -5,7 +5,7 @@
   "main": "./dist/src/lib/server.js",
   "scripts": {
     "build": "rm -rf ./dist/* && tsc",
-    "start": "node . | pino-socket -m tcp -a 127.0.0.1 -p 5000",
+    "start": "node . ",
     "dev": "nodemon",
     "production": "npm run start",
     "test": "jest",
@@ -47,7 +47,6 @@
     "pino-multi-stream": "^4.2.0",
     "pino-socket": "^2.0.0",
     "pino-tee": "^0.2.2",
-    "redis": "^2.8.0",
     "sequelize": "^5.21.1"
   },
   "devDependencies": {

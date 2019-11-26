@@ -1,29 +1,28 @@
 import 'localenv';
 import { Logger } from 'pino';
 import elasticApmNode from 'elastic-apm-node';
-import config from 'config';
 import App from './app';
 import listeners from '../listeners';
 import logger from '../utils/logger';
-import redisService from '../services/redis.service';
+
+const apm = elasticApmNode.start({
+	serviceName: 'Elk Stack',
+	serverUrl: `${process.env.APM_SERVER_HOST}`,
+	captureBody: 'all',
+});
 
 declare global {
     namespace NodeJS {
         interface Global {
             logger: Logger;
-            connections: any;
+            apm: any;
         }
     }
 }
 
+global.apm = apm;
 global.logger = logger;
 global.logger.info(`Listening ${process.env.NODE_ENV} config`);
-
-
-elasticApmNode.start({
-	serviceName: 'boilerplate',
-	serverUrl: `${process.env.APM_SERVER_HOST}`,
-});
 
 const application = new App();
 application.run(3000).then(async () => {
