@@ -16,7 +16,6 @@ export default class UserController {
     ])
     get = async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> => {
     	try {
-    		const cacheKey = 'user:get';
     		const users = await User.findAll();
     		next(response.ok({
     			message: 'User has been retrieved',

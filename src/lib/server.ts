@@ -3,12 +3,13 @@ import { Logger } from 'winston';
 import App from './app';
 import listeners from '../listeners';
 import logger from '../utils/logger';
+import apmServerService from '../services/apm-server.service';
 
 declare global {
     namespace NodeJS {
         interface Global {
             logger: Logger;
-            connections: any;
+            apm: any;
         }
     }
 }
@@ -16,18 +17,21 @@ declare global {
 global.logger = logger;
 global.logger.info(`Listening ${process.env.NODE_ENV} config`);
 
-const application = new App();
-application.run(3000).then(async () => {
+const server = (): Promise<any> => new Promise<any>(async (resolve, reject) => {
 	try {
-		const eventEmitter = await listeners();
-		setTimeout(() => {
-			eventEmitter.emit('testing', {
-				tes: 'some',
-			});
-		}, 5000);
+		const apm = await apmServerService();
+		const application = new App();
+		const app = await application.run(3000);
+		resolve({
+			apm, app,
+		});
 	} catch (error) {
-		global.logger.error(error);
+		reject(error);
 	}
+});
+
+server().then((result) => {
+	//
 }).catch((error) => {
-	global.logger.error(error);
+	throw error;
 });
