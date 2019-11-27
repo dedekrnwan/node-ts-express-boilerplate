@@ -8,5 +8,6 @@ export default (structured: any, request: express.Request, response: express.Res
 		// request['apm'].captureError(structured);
 	}
 	global.logger.info(structured);
+	// eslint-disable-next-line no-nested-ternary
 	response.status((structured.code) ? Number.isInteger(structured.code) ? structured.code : 500 : 500).json(structured);
 };

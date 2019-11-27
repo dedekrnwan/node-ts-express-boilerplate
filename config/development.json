@@ -12,9 +12,9 @@
   },
   "database": [
     {
-      "boilerplate": null,
+      "postgres": null,
       "host": "database",
-      "db": "boilerplate",
+      "db": "postgres",
       "username": "postgres",
       "password": "root",
       "port": 5432,

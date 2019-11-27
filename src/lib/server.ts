@@ -1,6 +1,5 @@
 import 'localenv';
-import { Logger } from 'pino';
-import { rejects } from 'assert';
+import { Logger } from 'winston';
 import App from './app';
 import listeners from '../listeners';
 import logger from '../utils/logger';
