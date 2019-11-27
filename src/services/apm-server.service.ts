@@ -1,4 +1,4 @@
-import * as elasticApmNode from 'elastic-apm-node';
+import elasticApmNode from 'elastic-apm-node';
 
 export default (): Promise<any> => new Promise<any>(async (resolve, reject) => {
 	try {
