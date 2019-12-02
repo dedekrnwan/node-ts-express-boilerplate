@@ -1,5 +1,13 @@
 import winston from 'winston';
 import expressWinston from 'express-winston';
+import WinstonElasticsearch from 'winston-elasticsearch';
+import { Client } from '@elastic/elasticsearch';
+import config from 'config';
+import elasticsearchService from '../services/elasticsearch.service';
+
+const clientElastic = new Client({
+	node: config.get('elasticsearch.host'),
+});
 
 const transport = {
 	console: new winston.transports.Console({
@@ -29,7 +37,7 @@ const transport = {
 		// }),
 		new winston.transports.File({
 			level: 'warn',
-			filename: `${__dirname}../../../logs/warn.log`,
+			filename: `${__dirname}/../../logs/warn.log`,
 			format: winston.format.combine(
 				// winston.format.colorize(),
 				winston.format.timestamp({
@@ -42,7 +50,7 @@ const transport = {
 		}),
 		new winston.transports.File({
 			level: 'error',
-			filename: `${__dirname}../../../logs/error.log`,
+			filename: `${__dirname}/../../logs/error.log`,
 			format: winston.format.combine(
 				// winston.format.colorize(),
 				winston.format.timestamp({
@@ -67,6 +75,12 @@ const transport = {
 		// 	),
 		// }),
 	],
+	elastic: [
+		new WinstonElasticsearch({
+			client: clientElastic,
+			format: winston.format.json(),
+		}),
+	],
 };
 
 const logger = winston.createLogger({
@@ -81,6 +95,7 @@ const logger = winston.createLogger({
 	transports: [
 		transport.console,
 		...transport.file,
+		...transport.elastic,
 	],
 });
 winston.addColors({
@@ -93,6 +108,7 @@ export const expressLogger = expressWinston.logger({
 	transports: [
 		transport.console,
 		...transport.file,
+		...transport.elastic,
 	],
 });
 

@@ -9,6 +9,7 @@ export default (): Promise<any> => new Promise<any>(async (resolve, reject) => {
 			usePathAsTransactionName: true,
 			// logLevel: 'trace',
 		});
+		global.apm = apm;
 		resolve(apm);
 	} catch (error) {
 		reject(error);
