@@ -3,10 +3,9 @@ import expressWinston from 'express-winston';
 import WinstonElasticsearch from 'winston-elasticsearch';
 import { Client } from '@elastic/elasticsearch';
 import config from 'config';
-import elasticsearchService from '../services/elasticsearch.service';
 
 const clientElastic = new Client({
-	node: config.get('elasticsearch.host'),
+	node: config.get('services.elasticsearch.host'),
 });
 
 const transport = {

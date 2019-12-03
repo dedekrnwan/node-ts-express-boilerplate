@@ -32,7 +32,6 @@ export default (): Promise<any> => new Promise(async (resolve, reject) => {
 		}, 5000);
 		resolve(true);
 	} catch (error) {
-		global.logger.error(error);
 		reject(error);
 	}
 });
