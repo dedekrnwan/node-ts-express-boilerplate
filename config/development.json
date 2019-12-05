@@ -62,9 +62,11 @@
       "callback_url": "http://localhost:3000/auth/github/callback"
     }
   },
-  "rabbitmq": {
-    "user": "rabbitmq",
-    "pass": "rabbitmq",
-    "host": "localhost"
+  "services": {
+    "rabbitmq": {
+      "user": "rabbitmq",
+      "pass": "rabbitmq",
+      "host": "localhost"
+    }
   }
 }

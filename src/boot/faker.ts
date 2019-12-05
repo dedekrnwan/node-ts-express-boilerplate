@@ -26,7 +26,7 @@ export default (): Promise<any> => new Promise(async (resolve, reject) => {
 						user,
 					});
 				}).catch((err) => {
-					global.logger.erro(err);
+					global.logger.error(err);
 				});
 			}
 		}, 5000);

@@ -3,7 +3,10 @@ import config from 'config';
 
 export const connectionRabbitmq = (): Promise<amqplib.Connection> => new Promise<any>(async (resolve, reject) => {
 	try {
-		const connection = await amqplib.connect(`amqp://${config.get('rabbitmq.user')}:${config.get('rabbitmq.pass')}@${config.get('rabbitmq.host')}?heartbeat=60`);
+		const connection = await amqplib
+			.connect(`amqp://${config.get('services.rabbitmq.user')}:`
+				+ `${config.get('services.rabbitmq.pass')}`
+				+ `@${config.get('services.rabbitmq.host')}?heartbeat=60`);
 		connection.on('error', (err) => {
 			if (err.message !== 'Connection closing') {
 				global.logger.error('Rabbitmq connection error', err);

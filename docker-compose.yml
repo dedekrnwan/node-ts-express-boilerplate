@@ -24,8 +24,8 @@ services:
     environment:
       - RABBITMQ_ERLANG_COOKIE: 'secret_cookie'
     ports:
-      - 5672:5672
-      - 15672:15672
+      - "5672:5672"
+      - "15672:15672"
     hostname: rabbitmq
     volumes:
       - ./docker/rabbitmq:/usr/src/rabbitmq/mnesia/rabbit@app-rabbitmq:cached
@@ -40,6 +40,9 @@ services:
     build: 
       context: .
     depends_on:
+      - database
+      - rabbitmq
+    links: 
       - database
       - rabbitmq
     container_name: ed_app

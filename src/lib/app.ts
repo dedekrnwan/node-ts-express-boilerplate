@@ -15,7 +15,11 @@ export default class App {
 
     constructor() {
     	this.app = express();
-    	this.boot();
+    	this.boot().then((result) => {
+
+    	}).catch((error) => {
+    		global.logger.error(error);
+    	});
     	this.burn(this.app);
     	const eventEmitter = new Events();
     	eventEmitter.emit('testing');
