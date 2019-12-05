@@ -18,7 +18,7 @@ export const connectionRabbitmq = (): Promise<amqplib.Connection> => new Promise
 				connectionRabbitmq();
 			}, 1000);
 		});
-		global.logger.error('Rabbitmq connected');
+		global.logger.info('Rabbitmq connected');
 		resolve(connection);
 	} catch (error) {
 		setTimeout(() => {
