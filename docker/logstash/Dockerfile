@@ -1,3 +1,1 @@
-ARG ELK_VERSION
-
-FROM docker.elastic.co/logstash/logstash:${ELK_VERSION}
+FROM docker.elastic.co/logstash/logstash:7.4.0
