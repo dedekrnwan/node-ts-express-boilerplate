@@ -28,6 +28,7 @@
   "license": "ISC",
   "dependencies": {
     "@dedekrnwan/decorators-express": "^2.0.4",
+    "@elastic/elasticsearch": "^7.4.0",
     "@hapi/joi": "^16.1.7",
     "bcryptjs": "^2.4.3",
     "config": "^3.2.4",
@@ -43,6 +44,15 @@
     "nodemailer": "^6.3.1",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
+<<<<<<< HEAD
+=======
+    "pino": "^5.13.5",
+    "pino-http": "^4.3.0",
+    "pino-multi-stream": "^4.2.0",
+    "pino-pretty": "^3.3.0",
+    "pino-socket": "^2.0.0",
+    "pino-tee": "^0.2.2",
+>>>>>>> 0113dccdba7d7beac1c1a820b8daf633102a2299
     "sequelize": "^5.21.1",
     "twilio": "^3.37.1",
     "winston": "^3.2.1"
