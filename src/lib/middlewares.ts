@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import expressPinoLogger from 'express-pino-logger';
 import ErrorMiddleware from '../middleware/error.middleware';
 import ResponseMiddleware from '../middleware/response.middleware';
 import { expressLogger } from '../utils/logger';
