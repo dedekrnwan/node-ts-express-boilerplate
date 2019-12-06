@@ -22,3 +22,9 @@ export interface IAuthorityCheck {
     modules: string;
     user?: User;
 }
+
+export interface IServerOptions {
+    port: number;
+    appName?: string;
+    appVersion?: string;
+}

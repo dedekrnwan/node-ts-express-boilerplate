@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import expressPinoLogger from 'express-pino-logger';
 import ErrorMiddleware from '../middleware/error.middleware';
 import ResponseMiddleware from '../middleware/response.middleware';
-import logger, { stream } from '../utils/logger';
+import { expressLogger } from '../utils/logger';
 
 export const before = (app: express.Application): Promise<express.Application> => new Promise<express.Application>(async (resolve, reject) => {
 	try {
@@ -15,7 +15,7 @@ export const before = (app: express.Application): Promise<express.Application> =
 			express.urlencoded({
 				extended: true,
 			}),
-			expressPinoLogger({ logger }, stream),
+			expressLogger,
 		];
 		middlewares.forEach(async (middleware: any) => {
 			await app.use(middleware);

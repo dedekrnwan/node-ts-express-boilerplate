@@ -1,34 +1,99 @@
-import pino from 'pino';
-import childProcess from 'child_process';
-import pinoMultiStream, { multistream } from 'pino-multi-stream';
-import pinoPretty from 'pino-pretty';
-import { getPrettyStream as pinoGetPrettyStream } from 'pino/lib/tools';
+import winston from 'winston';
+import expressWinston from 'express-winston';
 
-const cwd = process.cwd();
-const logPath = `${cwd}/logs`;
-
-const teeStream = childProcess.spawn(
-	process.execPath,
-	[
-		require.resolve('pino-tee'),
-		'warn', `${logPath}/warn.log`,
-		'error', `${logPath}/error.log`,
-		'fatal', `${logPath}/fatal.log`,
-		'debug', `${logPath}/debug.log`,
+const transport = {
+	console: new winston.transports.Console({
+		format: winston.format.combine(
+			winston.format.colorize(),
+			winston.format.timestamp({
+				format: 'DD-MM-YYYY HH:mm:ss',
+			}),
+			winston.format.prettyPrint(),
+			// winston.format.metadata(),
+			winston.format.printf((log) => `[${log.timestamp}] ${log.level}: ${log.message}`),
+		),
+	}),
+	file: [
+		// new winston.transports.File({
+		// 	level: 'info',
+		// 	filename: `${__dirname}../../../logs/info.log`,
+		// 	format: winston.format.combine(
+		// 		// winston.format.colorize(),
+		// 		winston.format.timestamp({
+		// 			format: 'DD-MM-YYYY HH:mm:ss',
+		// 		}),
+		// 		winston.format.prettyPrint(),
+		// 		winston.format.metadata(),
+		// 		winston.format.printf((log) => `[${log.metadata.timestamp}] ${log.level.toUpperCase()}: ${log.message} \n${JSON.stringify(log.metadata, null, 2)} \n`),
+		// 	),
+		// }),
+		new winston.transports.File({
+			level: 'warn',
+			filename: `${__dirname}/../../logs/warn.log`,
+			format: winston.format.combine(
+				// winston.format.colorize(),
+				winston.format.timestamp({
+					format: 'DD-MM-YYYY HH:mm:ss',
+				}),
+				winston.format.prettyPrint(),
+				winston.format.metadata(),
+				winston.format.printf((log) => `[${log.metadata.timestamp}] ${log.level.toUpperCase()}: ${log.message} \n${JSON.stringify(log.metadata, null, 2)} \n`),
+			),
+		}),
+		new winston.transports.File({
+			level: 'error',
+			filename: `${__dirname}/../../logs/error.log`,
+			format: winston.format.combine(
+				// winston.format.colorize(),
+				winston.format.timestamp({
+					format: 'DD-MM-YYYY HH:mm:ss',
+				}),
+				winston.format.prettyPrint(),
+				winston.format.metadata(),
+				winston.format.printf((log) => `[${log.metadata.timestamp}] ${log.level.toUpperCase()}: ${log.message} \n${JSON.stringify(log.metadata, null, 2)} \n`),
+			),
+		}),
+		// new winston.transports.File({
+		// 	level: 'debug',
+		// 	filename: `${__dirname}../../../logs/debug.log`,
+		// 	format: winston.format.combine(
+		// 		// winston.format.colorize(),
+		// 		winston.format.timestamp({
+		// 			format: 'DD-MM-YYYY HH:mm:ss',
+		// 		}),
+		// 		winston.format.prettyPrint(),
+		// 		winston.format.metadata(),
+		// 		winston.format.printf((log) => `[${log.metadata.timestamp}] ${log.level.toUpperCase()}: ${log.message} \n${JSON.stringify(log.metadata, null, 2)} \n`),
+		// 	),
+		// }),
 	],
-	{
-		cwd,
-		env: process.env,
+};
+
+const logger = winston.createLogger({
+	// levels: winston.config.syslog.levels,
+	levels: {
+		error: 0,
+		warn: 1,
+		info: 2,
+		debug: 3,
 	},
-);
+	exitOnError: false,
+	transports: [
+		transport.console,
+		...transport.file,
+	],
+});
+winston.addColors({
+	error: 'red',
+	warn: 'yellow',
+	info: 'cyan',
+	debug: 'green',
+});
+export const expressLogger = expressWinston.logger({
+	transports: [
+		transport.console,
+		...transport.file,
+	],
+});
 
-const prettyConsoleStream = pinoGetPrettyStream({ translateTime: true }, pinoPretty, process.stdout);
-
-export const stream = multistream([
-	{ stream: pinoMultiStream.multistream() },
-	{ stream: prettyConsoleStream },
-	{ stream: teeStream.stdin },
-]);
-
-const log = pino({}, stream);
-export default log;
+export default logger;
