@@ -2,7 +2,6 @@ version: '3.6'
 
 services: 
   database:
-    # image: postgres
     build:
       context: ./docker/postgresql
     ports:
@@ -53,8 +52,6 @@ services:
       - "3000:3000"
     volumes:
       - .:/usr/src/app
-      - /usr/src/app/node_modules
-    command: npm run production
     networks: 
       - default
 volumes:

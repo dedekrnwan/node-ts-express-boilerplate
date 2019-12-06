@@ -61,7 +61,7 @@ export default class App {
 
     static = async (): Promise<void> => {
     	try {
-    		await this.app.use('/public', express.static(path.join(__dirname, './../../../public')));
+    		await this.app.use('/public', express.static(path.join(__dirname, '../../public')));
     	} catch (error) {
     		global.logger.error(error);
     	}
