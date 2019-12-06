@@ -12,6 +12,9 @@ apmServerService().then(() => {
 import { Logger } from 'winston';
 import App from './app';
 import logger from '../utils/logger';
+import { IServerOptions } from '../interfaces';
+import config from 'config';
+import packageJson from '../../package.json';
 
 declare global {
     namespace NodeJS {
@@ -25,10 +28,12 @@ declare global {
 global.logger = logger;
 global.logger.info(`Listening ${process.env.NODE_ENV} config`);
 
-const server = (): Promise<any> => new Promise<any>(async (resolve, reject) => {
+const server = (options: IServerOptions): Promise<any> => new Promise<any>(async (resolve, reject) => {
 	try {
 		const application = new App();
-		const app = await application.run(3000);
+		const app = await application.run(options.port);
+		global.logger.info(`${packageJson.name} listening on the port ${options.port}`);
+
 		resolve({
 			app,
 		});
@@ -37,7 +42,9 @@ const server = (): Promise<any> => new Promise<any>(async (resolve, reject) => {
 	}
 });
 
-server().then((result) => {
+server({
+	port: config.get('server.port'),
+}).then((result) => {
 	//
 }).catch((error) => {
 	throw error;

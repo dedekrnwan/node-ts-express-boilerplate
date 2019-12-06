@@ -6,6 +6,9 @@ services:
     build:
       context: ./docker/elasticsearch
     volumes:
+      - type: bind
+        source: ./docker/elasticsearch/config/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
       - type: volume
         source: nacode_elasticsearch
         target: /usr/share/elasticsearch/data

@@ -54,8 +54,8 @@ export default class App {
 
     burn = async (apps: express.Application): Promise<any> => {
     	try {
-    		// this.app.disabled('x-powered-by');
-    		// this.app.disabled('etag');
+    		this.app.disabled('x-powered-by');
+    		this.app.disabled('etag');
     		this.app = await kernel(apps);
     	} catch (error) {
     		global.logger.error(error);
@@ -64,7 +64,7 @@ export default class App {
 
     static = async (): Promise<any> => {
     	try {
-    		await this.app.use('/public', express.static(path.join(__dirname, './../../../public')));
+    		await this.app.use('/public', express.static(path.join(__dirname, '../../../public')));
     	} catch (error) {
     		global.logger.error(error);
     	}
@@ -72,7 +72,6 @@ export default class App {
 
     run = (port: number): Promise<any> => new Promise<any>((resolve, reject) => {
     	this.app.listen(port, () => {
-    		global.logger.info(`${config.get('server.name')} listening on the port ${port}`);
     		resolve(this.app);
     	}).on('error', (error) => {
     		// this.apm.captureError(error);
