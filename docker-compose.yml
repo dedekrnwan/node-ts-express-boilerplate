@@ -2,18 +2,12 @@ version: '3.6'
 
 services: 
   elasticsearch:
-    container_name: elk_elasticsearch
+    container_name: nacode_elasticsearch
     build:
       context: ./docker/elasticsearch
     volumes:
-      - type: bind
-        source: ./docker/elasticsearch/config/
-        target: /usr/share/elasticsearch/config/
-      # - type: bind
-      #   source: ./docker/elasticsearch/config/elastic-certificates.p12
-      #   target: /usr/share/elasticsearch/config/elastic-certificates.p12
       - type: volume
-        source: elk_elasticsearch
+        source: nacode_elasticsearch
         target: /usr/share/elasticsearch/data
     environment:
       ES_JAVA_OPTS: "-Xms512m -Xmx512m"
@@ -21,8 +15,82 @@ services:
       - 9200:9200
     networks: 
       - default
+  kibana:
+    container_name: nacode_kibana
+    build:
+      context: ./docker/kibana/
+    ports:
+      - "5601:5601"
+    restart: unless-stopped
+    links:
+      - elasticsearch
+    depends_on:
+      - elasticsearch
+      # - logstash
+    volumes:
+      - type: bind
+        source: ./docker/kibana/config/kibana.yml
+        target: /usr/share/kibana/config/kibana.yml
+        read_only: true 
+    networks: 
+      - default
+  apm-server:
+    container_name: nacode_apm_server
+    build:
+      context: ./docker/apm
+    ports:
+        - "127.0.0.1:${APM_SERVER_PORT:-8200}:8200"
+        - "127.0.0.1:${APM_SERVER_MONITOR_PORT:-6060}:6060"
+    volumes:
+      - type: bind
+        source: ./docker/apm/config/apm-server.yml
+        target: /usr/share/apm-server/apm-server.yml
+    depends_on:
+      - elasticsearch
+      - kibana
+    links:
+      - kibana
+      - elasticsearch
+    networks: 
+      - default
+  database:
+    build:
+      context: ./docker/postgresql
+    ports:
+      - "5434:5432"
+    container_name: nacode_database
+    environment: 
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: postgres
+    volumes:
+      - type: volume
+        source: nacode_database
+        target: /var/lib/postgresql
+    networks: 
+      - default
+  app:
+    build: 
+      context: .
+    depends_on:
+      - database
+      - elasticsearch
+      # - logstash
+      - apm-server
+    container_name: nacode_app
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "3001:3000"
+    volumes:
+      - .:/usr/src/app
+    networks: 
+      - default
+    links:
+      - database
+      - apm-server
   # logstash:
-  #   container_name: elk_logstash
+  #   container_name: nacode_logstash
   #   build:
   #     context: ./docker/logstash
   #   volumes:
@@ -45,91 +113,9 @@ services:
   #     - "9600:9600"
   #   networks: 
   #     - default
-  kibana:
-    container_name: elk_kibana
-    build:
-      context: ./docker/kibana/
-    ports:
-      - "5601:5601"
-    restart: unless-stopped
-    links:
-      - elasticsearch
-    depends_on:
-      - elasticsearch
-      # - logstash
-    volumes:
-      - type: bind
-        source: ./docker/kibana/config/kibana.yml
-        target: /usr/share/kibana/config/kibana.yml
-        read_only: true 
-    networks: 
-      - default
-  apm-server:
-    container_name: elk_apm_server
-    build:
-      context: ./docker/apm
-    ports:
-        - "127.0.0.1:${APM_SERVER_PORT:-8200}:8200"
-        - "127.0.0.1:${APM_SERVER_MONITOR_PORT:-6060}:6060"
-    volumes:
-      - type: bind
-        source: ./docker/apm/config/apm-server.yml
-        target: /usr/share/apm-server/apm-server.yml
-    depends_on:
-      - elasticsearch
-      - kibana
-    links:
-      - kibana
-      - elasticsearch
-    # command: ["/usr/share/apm-server/apm-server.yml","-e","-c","/usr/share/apm-server/apm-server.yml","-E","apm-server.host=apm-server:8200","--strict.perms=false"]
-    networks: 
-      - default
-    # healthcheck:
-    #   test: ["CMD","curl","-s","-f","http://localhost:8200/polls"]
-    #   retries: 6
-  database:
-    # image: postgres
-    build:
-      context: ./docker/postgresql
-    ports:
-      - "5434:5432"
-    container_name: elk_database
-    environment: 
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: postgres
-    volumes:
-      - type: volume
-        source: elk_database
-        target: /var/lib/postgresql
-    networks: 
-      - default
-  app:
-    build: 
-      context: .
-    depends_on:
-      - database
-      - elasticsearch
-      # - logstash
-      - apm-server
-    container_name: elk_app
-    restart: unless-stopped
-    env_file: .env
-    ports:
-      - "3001:3000"
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    # command: npm run production
-    networks: 
-      - default
-    links:
-      - database
-      - apm-server
 volumes:
-  elk_database:
-  elk_elasticsearch:
-  elk_postgres:
+  nacode_database:
+  nacode_elasticsearch:
 networks: 
   default:
     driver: bridge

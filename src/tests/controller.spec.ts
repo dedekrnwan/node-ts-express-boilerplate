@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
-
+// eslint-disable-next-line import/no-extraneous-dependencies
 import supertest from 'supertest';
-import App from '../src/lib/app';
-import AuthController from '../src/modules/auth/auth.controller';
+import App from '../lib/app';
+import AuthController from '../modules/auth/auth.controller';
 
 const request = supertest(new App().app);
 

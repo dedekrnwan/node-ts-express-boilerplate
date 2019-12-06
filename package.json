@@ -2,11 +2,12 @@
   "name": "cheetah",
   "version": "1.0.0",
   "description": "cheetah, express, boilerplate, plate, template, core",
-  "main": "./dist/src/lib/server.js",
+  "main": "./src/lib/server.js",
   "scripts": {
     "build": "rm -rf ./dist/* && tsc",
     "start": "node . ",
-    "dev": "nodemon",
+    "watch": "nodemon",
+    "dev": "node . ",
     "production": "npm run start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
