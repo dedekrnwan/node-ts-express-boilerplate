@@ -1,3 +1,4 @@
+import firebaseAdmin from 'firebase-admin';
 import User from '../modules/user/user.model';
 
 export interface Error {
@@ -27,4 +28,11 @@ export interface IServerOptions {
     port: number;
     appName?: string;
     appVersion?: string;
+}
+
+
+export interface IFirebaseAdminSendNotification {
+    firebaseToken: string;
+    payload: firebaseAdmin.messaging.MessagingPayload;
+    options?: firebaseAdmin.messaging.MessagingOptions;
 }
