@@ -2,7 +2,6 @@ import express from 'express';
 import http from 'http';
 import path from 'path';
 import * as fs from 'fs';
-import config from 'config';
 import Events from 'events';
 import kernel from './kernel';
 
@@ -71,7 +70,6 @@ export default class App {
     	try {
     		this.server = http.createServer(this.app);
     		this.server.listen(port, () => {
-    			global.logger.info(`${config.get('server.name')} listening on the port ${port}`);
     			resolve(this.server);
     		}).on('error', (error) => {
     			reject(error);

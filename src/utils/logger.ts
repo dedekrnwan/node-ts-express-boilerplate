@@ -29,7 +29,7 @@ const transport = {
 		// }),
 		new winston.transports.File({
 			level: 'warn',
-			filename: `${__dirname}../../../logs/warn.log`,
+			filename: `${__dirname}/../../../logs/warn.log`,
 			format: winston.format.combine(
 				// winston.format.colorize(),
 				winston.format.timestamp({
@@ -42,7 +42,7 @@ const transport = {
 		}),
 		new winston.transports.File({
 			level: 'error',
-			filename: `${__dirname}../../../logs/error.log`,
+			filename: `${__dirname}/../../../logs/error.log`,
 			format: winston.format.combine(
 				// winston.format.colorize(),
 				winston.format.timestamp({
