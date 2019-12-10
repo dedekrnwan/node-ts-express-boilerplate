@@ -38,7 +38,6 @@
     "faker": "^4.1.0",
     "helmet": "^3.21.2",
     "jsonwebtoken": "^8.5.1",
-    "localenv": "^0.2.2",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
     "redis": "^2.8.0",

@@ -1,4 +1,3 @@
-import 'localenv';
 import { Logger } from 'winston';
 import App from './app';
 import listeners from '../listeners';
