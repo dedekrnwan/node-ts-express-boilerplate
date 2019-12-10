@@ -1,4 +1,3 @@
-  
 #!/bin/sh
 
 if [ "$NODE_ENV" == "production" ] ;

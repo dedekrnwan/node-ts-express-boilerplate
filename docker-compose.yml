@@ -2,7 +2,7 @@ version: "3.6"
 
 services:
   app:
-    container_name: core_app
+    container_name: red_app
     build: ./
     ports:
       - 3000:3000
@@ -10,39 +10,31 @@ services:
     depends_on:
       - redis
       - database
-    volumes:
-      - type: bind
-        source: .
-        target: /var/www/app
   redis:
     image: redis:alpine
-    container_name: core_redis
+    container_name: red_redis
     volumes:
       - type: volume
-        source: core_redis
+        source: red_redis
         target: /data
-      # - type: bind
-      #   source: ./docker/redis/redis.conf
-      #   target: /usr/local/etc/redis/redis.conf
     networks: 
       - default
     ports:
       - "6379:6379"
     command: ["redis-server", "--bind", "redis", "--port", "6379", "--requirepass","secret", "--appendonly","yes"]
   database:
-    # image: postgres
     build:
       context: ./docker/postgresql
     ports:
       - "5434:5432"
-    container_name: core_database
+    container_name: red_database
     environment: 
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
       POSTGRES_DB: postgres
     volumes:
       - type: volume
-        source: core_postgres
+        source: red_postgres
         target: /var/lib/postgresql
     networks: 
       - default
@@ -50,5 +42,5 @@ networks:
   default:
     driver: bridge
 volumes:
-  core_redis:
-  core_postgres:
+  red_redis:
+  red_postgres:
