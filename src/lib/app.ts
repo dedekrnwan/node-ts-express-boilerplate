@@ -8,6 +8,8 @@ import kernel from './kernel';
 export default class App {
     app: express.Application
 
+    apm: any
+
     server: any
 
     connections: any

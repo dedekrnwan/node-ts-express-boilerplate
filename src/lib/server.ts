@@ -9,7 +9,7 @@ declare global {
     namespace NodeJS {
         interface Global {
             logger: Logger;
-            connections: any;
+            apm: any;
         }
     }
 }
@@ -39,5 +39,5 @@ server({
 }).then((serverObject) => {
 
 }).catch((error) => {
-	global.logger.error(error);
+	throw error;
 });
