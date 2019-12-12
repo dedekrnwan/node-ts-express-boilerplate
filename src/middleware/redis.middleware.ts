@@ -18,7 +18,7 @@ export default {
 					if (result) {
 						const structured = response.ok(JSON.parse(result));
 						global.logger.info(structured);
-						res.status(200).json(structured);
+						res.status(Number.isInteger(structured.code) ? structured.code : 200).json(structured);
 					} else {
 						next();
 					}
