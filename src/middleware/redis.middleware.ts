@@ -33,7 +33,7 @@ export default {
 	caching: async (structured: any, req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> => {
 		try {
 			// checking cached and response
-			if (['get'].includes(req.method.toLowerCase())) {
+			if (['get'].includes(req.method.toLowerCase()) && structured.code === 200) {
 				const redisClient: redis.RedisClient = await redisService();
 				const cacheKey = `${req.originalUrl}`;
 				redisClient.setex(cacheKey, 3600, JSON.stringify(structured), (error, rtr) => {
