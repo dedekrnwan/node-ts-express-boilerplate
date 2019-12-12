@@ -65,6 +65,9 @@
       "pass": "rabbitmq",
       "host": "localhost"
     },
+    "elasticsearch": {
+      "host": "http://localhost:9200"
+    },
     "redis": {
       "host": "redis",
       "port": 6379,

@@ -14,8 +14,6 @@ services:
         target: /usr/share/elasticsearch/data
     environment:
       ES_JAVA_OPTS: "-Xms512m -Xmx512m"
-    container_name: red_app
-    build: ./
     ports:
       - 9200:9200
     networks: 
@@ -31,24 +29,14 @@ services:
       - elasticsearch
     depends_on:
       - elasticsearch
+      # - logstash
     volumes:
       - type: bind
         source: ./docker/kibana/config/kibana.yml
         target: /usr/share/kibana/config/kibana.yml
         read_only: true 
-    
-  redis:
-    image: redis:alpine
-    container_name: red_redis
-    volumes:
-      - type: volume
-        source: red_redis
-        target: /data
     networks: 
       - default
-    ports:
-       - "6379:6379"
-    command: ["redis-server", "--bind", "redis", "--port", "6379", "--requirepass","secret", "--appendonly","yes"]
   apm-server:
     container_name: nacode_apm_server
     build:
@@ -68,13 +56,12 @@ services:
       - elasticsearch
     networks: 
       - default
-     
   database:
     build:
       context: ./docker/postgresql
     ports:
-      - "5432:5432"
-    container_name: red_database
+      - "5434:5432"
+    container_name: nacode_database
     environment: 
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
@@ -82,7 +69,6 @@ services:
     volumes:
       - type: volume
         source: nacode_database
-        source: red_postgres
         target: /var/lib/postgresql
     networks: 
       - default
@@ -92,13 +78,13 @@ services:
     depends_on:
       - database
       - elasticsearch
-      - redis
+      # - logstash
       - apm-server
     container_name: nacode_app
     restart: unless-stopped
     env_file: .env
     ports:
-      - "3000:3000"
+      - "3001:3000"
     volumes:
       - .:/usr/src/app
     networks: 
@@ -106,13 +92,33 @@ services:
     links:
       - database
       - apm-server
-      - redis
+  # logstash:
+  #   container_name: nacode_logstash
+  #   build:
+  #     context: ./docker/logstash
+  #   volumes:
+  #     - type: bind
+  #       source: ./docker/logstash/config/logstash.yml
+  #       target: /usr/share/logstash/config/logstash.yml
+  #       read_only: false
+  #     - type: bind
+  #       source: ./docker/logstash/pipeline
+  #       target: /usr/share/logstash/pipeline
+  #       read_only: false
+  #   environment:
+  #     - "LS_JAVA_OPTS=-Xmx256m -Xms256m"
+  #   depends_on:
+  #     - elasticsearch
+  #   links:
+  #     - elasticsearch
+  #   ports:
+  #     - "5000:5000"
+  #     - "9600:9600"
+  #   networks: 
+  #     - default
 volumes:
   nacode_database:
   nacode_elasticsearch:
 networks: 
   default:
     driver: bridge
-volumes:
-  red_redis:
-  red_postgres:

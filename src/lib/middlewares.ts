@@ -1,14 +1,14 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import errorMiddleware from '../middleware/error.middleware';
-import responseMiddleware from '../middleware/response.middleware';
+import ErrorMiddleware from '../middleware/error.middleware';
+import ResponseMiddleware from '../middleware/response.middleware';
 import { expressLogger } from '../utils/logger';
-import redisMiddleware from '../middleware/redis.middleware';
 
 export const before = (app: express.Application): Promise<express.Application> => new Promise<express.Application>(async (resolve, reject) => {
 	try {
 		const middlewares: Function[] = [
+			// apmMiddleware().start,
 			helmet(),
 			cors(),
 			express.json(),
@@ -16,7 +16,6 @@ export const before = (app: express.Application): Promise<express.Application> =
 				extended: true,
 			}),
 			expressLogger,
-			redisMiddleware.handler,
 		];
 		middlewares.forEach(async (middleware: any) => {
 			await app.use(middleware);
@@ -30,8 +29,9 @@ export const before = (app: express.Application): Promise<express.Application> =
 export const after = (app: express.Application): Promise<express.Application> => new Promise<express.Application>(async (resolve, reject) => {
 	try {
 		const middlewares: Function[] = [
-			redisMiddleware.caching,
-			responseMiddleware,
+			// global.apm.middleware.connect(),
+			ResponseMiddleware,
+			// apmMiddleware().end,
 		];
 		middlewares.forEach(async (middleware: any) => {
 			await app.use(middleware);
@@ -45,7 +45,7 @@ export const after = (app: express.Application): Promise<express.Application> =>
 export const error = (app: express.Application): Promise<express.Application> => new Promise<express.Application>(async (resolve, reject) => {
 	try {
 		const middlewares: Function[] = [
-			errorMiddleware,
+			ErrorMiddleware,
 		];
 		middlewares.forEach(async (middleware: any) => {
 			await app.use(middleware);

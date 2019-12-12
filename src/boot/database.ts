@@ -1,3 +1,5 @@
+import { Sequelize } from 'sequelize';
+import config from 'config';
 import {
 	connection, initializeTable,
 } from '../models';

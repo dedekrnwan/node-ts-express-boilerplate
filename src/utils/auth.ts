@@ -37,12 +37,7 @@ export default {
 				});
 			}
 		} catch (error) {
-			// reject(new Exception(error));
-			reject({
-				code: 401,
-				flag: 'Unauthorized',
-				message: 'Access denied, Token is invalid',
-			});
+			reject(new Exception(error));
 		}
 	}),
 	authorized: (object: IAuthorityCheck): Promise<any> => new Promise<any>(async (resolve, reject) => {

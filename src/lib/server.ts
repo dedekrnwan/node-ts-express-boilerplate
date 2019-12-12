@@ -15,9 +15,6 @@ import logger from '../utils/logger';
 import { IServerOptions } from '../interfaces';
 import config from 'config';
 import packageJson from '../../package.json';
-import redisService from '../services/redis.service';
-import { IServerOptions } from '../interfaces';
-import * as packageJson from '../../package.json';
 
 declare global {
     namespace NodeJS {
@@ -41,15 +38,6 @@ const server = (options: IServerOptions): Promise<any> => new Promise<any>(async
 			app,
 		});
 	} catch (error) {
-		const clientRedis = await redisService();
-		const eventEmitter = await listeners();
-		resolve({
-			app,
-			clientRedis,
-			eventEmitter,
-		});
-	} catch (error) {
-		process.exit(1);
 		reject(error);
 	}
 });
@@ -57,7 +45,7 @@ const server = (options: IServerOptions): Promise<any> => new Promise<any>(async
 server({
 	port: config.get('server.port'),
 }).then((result) => {
-  //
+	//
 }).catch((error) => {
 	throw error;
 });
