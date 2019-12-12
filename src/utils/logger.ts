@@ -16,8 +16,8 @@ const transport = {
 				format: 'DD-MM-YYYY HH:mm:ss',
 			}),
 			winston.format.prettyPrint(),
-			// winston.format.metadata(),
-			winston.format.printf((log) => `[${log.timestamp}] ${log.level}: ${log.message}`),
+			winston.format.metadata(),
+			winston.format.printf((log) => `[${log.metadata.timestamp}] ${log.level}: ${log.message} \n${JSON.stringify(log.metadata, null, 2)} \n`),
 		),
 	}),
 	file: [

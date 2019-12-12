@@ -70,11 +70,15 @@ export default class App {
     	}
     }
 
-    run = (port: number): Promise<any> => new Promise<any>((resolve, reject) => {
-    	this.app.listen(port, () => {
-    		resolve(this.app);
-    	}).on('error', (error) => {
-    		// this.apm.captureError(error);
+    run = (port: number): Promise<any> => new Promise<any>(async (resolve, reject) => {
+    	try {
+    		this.server = http.createServer(this.app);
+    		this.server.listen(port, () => {
+    			resolve(this.server);
+    		}).on('error', (error) => {
+    			reject(error);
+    		});
+    	} catch (error) {
     		reject(error);
     	});
     })
