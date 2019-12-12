@@ -16,7 +16,6 @@ export const before = (app: express.Application): Promise<express.Application> =
 				extended: true,
 			}),
 			expressLogger,
-			redisMiddleware.handler,
 		];
 		middlewares.forEach(async (middleware: any) => {
 			await app.use(middleware);

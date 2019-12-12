@@ -15,6 +15,7 @@ export interface IResponse {
     message: string;
     data?: any;
     error?: any;
+    query?: any;
 }
 
 export interface IAuthorityCheck {

@@ -12,12 +12,11 @@ apmServerService().then(() => {
 import { Logger } from 'winston';
 import App from './app';
 import logger from '../utils/logger';
-import { IServerOptions } from '../interfaces';
 import config from 'config';
-import packageJson from '../../package.json';
 import redisService from '../services/redis.service';
 import { IServerOptions } from '../interfaces';
 import * as packageJson from '../../package.json';
+import listeners from '../listeners';
 
 declare global {
     namespace NodeJS {
@@ -37,12 +36,9 @@ const server = (options: IServerOptions): Promise<any> => new Promise<any>(async
 		const app = await application.run(options.port);
 		global.logger.info(`${packageJson.name} listening on the port ${options.port}`);
 
-		resolve({
-			app,
-		});
-	} catch (error) {
 		const clientRedis = await redisService();
 		const eventEmitter = await listeners();
+
 		resolve({
 			app,
 			clientRedis,
@@ -57,7 +53,7 @@ const server = (options: IServerOptions): Promise<any> => new Promise<any>(async
 server({
 	port: config.get('server.port'),
 }).then((result) => {
-  //
+	//
 }).catch((error) => {
 	throw error;
 });

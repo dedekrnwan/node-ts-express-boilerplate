@@ -4,6 +4,8 @@ import { Exception } from '../../utils/exception';
 import authMiddleware from '../../middleware/auth.middleware';
 import { response } from '../../utils/response';
 import User from './user.model';
+import redisMiddleware from '../../middleware/redis.middleware';
+import queryMiddleware from '../../middleware/query.middleware';
 
 @Controller('/user')
 export default class UserController {
@@ -13,10 +15,14 @@ export default class UserController {
     })
     @RouteMiddleware.before([
     	authMiddleware.authenticated,
+    	queryMiddleware.pagination,
+    	redisMiddleware.handler,
     ])
     get = async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> => {
     	try {
-    		const users = await User.findAll();
+    		const users = await User.findAll({
+    			...res.locals.query,
+    		});
     		next(response.ok({
     			message: 'User has been retrieved',
     			data: {

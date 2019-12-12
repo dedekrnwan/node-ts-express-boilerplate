@@ -1,5 +1,6 @@
 import * as express from 'express';
 import redis from 'redis';
+import lodash from 'lodash';
 import redisService from '../services/redis.service';
 import Exception from '../utils/exception';
 import response from '../utils/response';
@@ -17,8 +18,13 @@ export default {
 					}
 					if (result) {
 						const structured = response.ok(JSON.parse(result));
-						global.logger.info(structured);
-						res.status(Number.isInteger(structured.code) ? structured.code : 200).json(structured);
+						if (!lodash.isEqual(res.locals.query, structured.query)) {
+							delete structured.query;
+							global.logger.info(structured);
+							res.status(200).json(structured);
+						} else {
+							next();
+						}
 					} else {
 						next();
 					}
@@ -36,6 +42,7 @@ export default {
 			if (['get'].includes(req.method.toLowerCase()) && structured.code === 200) {
 				const redisClient: redis.RedisClient = await redisService();
 				const cacheKey = `${req.originalUrl}`;
+				structured.query = res.locals.query;
 				redisClient.setex(cacheKey, 3600, JSON.stringify(structured), (error, rtr) => {
     				if (error) {
 						next(new Exception(error));

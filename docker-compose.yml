@@ -2,7 +2,7 @@ version: '3.6'
 
 services: 
   elasticsearch:
-    container_name: nacode_elasticsearch
+    container_name: mono_elasticsearch
     build:
       context: ./docker/elasticsearch
     volumes:
@@ -10,18 +10,17 @@ services:
         source: ./docker/elasticsearch/config/elasticsearch.yml
         target: /usr/share/elasticsearch/config/elasticsearch.yml
       - type: volume
-        source: nacode_elasticsearch
+        source: mono_elasticsearch
         target: /usr/share/elasticsearch/data
     environment:
       ES_JAVA_OPTS: "-Xms512m -Xmx512m"
-    container_name: red_app
     build: ./
     ports:
       - 9200:9200
     networks: 
       - default
   kibana:
-    container_name: nacode_kibana
+    container_name: mono_kibana
     build:
       context: ./docker/kibana/
     ports:
@@ -36,21 +35,8 @@ services:
         source: ./docker/kibana/config/kibana.yml
         target: /usr/share/kibana/config/kibana.yml
         read_only: true 
-    
-  redis:
-    image: redis:alpine
-    container_name: red_redis
-    volumes:
-      - type: volume
-        source: red_redis
-        target: /data
-    networks: 
-      - default
-    ports:
-       - "6379:6379"
-    command: ["redis-server", "--bind", "redis", "--port", "6379", "--requirepass","secret", "--appendonly","yes"]
   apm-server:
-    container_name: nacode_apm_server
+    container_name: mono_apm_server
     build:
       context: ./docker/apm
     ports:
@@ -68,21 +54,31 @@ services:
       - elasticsearch
     networks: 
       - default
-     
+  redis:
+    image: redis:alpine
+    container_name: mono_redis
+    volumes:
+      - type: volume
+        source: mono_redis
+        target: /data
+    networks: 
+      - default
+    ports:
+       - "6379:6379"
+    command: ["redis-server", "--bind", "redis", "--port", "6379", "--requirepass","secret", "--appendonly","yes"]
   database:
     build:
       context: ./docker/postgresql
     ports:
       - "5432:5432"
-    container_name: red_database
+    container_name: mono_database
     environment: 
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
       POSTGRES_DB: postgres
     volumes:
       - type: volume
-        source: nacode_database
-        source: red_postgres
+        source: mono_database
         target: /var/lib/postgresql
     networks: 
       - default
@@ -94,7 +90,7 @@ services:
       - elasticsearch
       - redis
       - apm-server
-    container_name: nacode_app
+    container_name: mono_app
     restart: unless-stopped
     env_file: .env
     ports:
@@ -107,12 +103,12 @@ services:
       - database
       - apm-server
       - redis
+      - elasticsearch
 volumes:
-  nacode_database:
-  nacode_elasticsearch:
+  mono_database:
+  mono_elasticsearch:
+  mono_redis:
+
 networks: 
   default:
     driver: bridge
-volumes:
-  red_redis:
-  red_postgres:

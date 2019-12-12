@@ -1,11 +1,11 @@
 {
-  "name": "cheetah",
+  "name": "monolith",
   "version": "1.0.0",
-  "description": "cheetah, express, boilerplate, plate, template, core",
+  "description": "monolith, coreplate, express, boilerplate, plate, template, core",
   "main": "./src/lib/server.js",
   "scripts": {
     "build": "rm -rf ./dist/* && tsc",
-    "start": "node . ",
+    "start": "node  --inspect=9230 -r . ",
     "dev": "node .",
     "watch": "nodemon",
     "production": "npm run start",
@@ -40,14 +40,13 @@
     "faker": "^4.1.0",
     "helmet": "^3.21.2",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.15",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
+    "redis": "^2.8.0",
     "sequelize": "^5.21.1",
     "winston": "^3.2.1",
     "winston-elasticsearch": "^0.8.2"
-    "redis": "^2.8.0",
-    "sequelize": "^5.21.1",
-    "winston": "^3.2.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -58,6 +57,7 @@
     "@types/hapi__joi": "^16.0.2",
     "@types/jest": "^24.0.21",
     "@types/jsonwebtoken": "^8.3.5",
+    "@types/lodash": "^4.14.149",
     "@types/node": "^12.11.6",
     "@types/supertest": "^2.0.8",
     "@typescript-eslint/eslint-plugin": "^2.5.0",

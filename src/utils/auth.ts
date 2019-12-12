@@ -21,7 +21,15 @@ export default {
 							id: jwtDecoded.payload.id,
 						},
 					});
-					resolve(user);
+					if (user) {
+						resolve(user);
+					} else {
+						reject({
+							code: 401,
+							flag: 'Unauthorized',
+							message: 'Access denied, Token is invalid',
+						});
+					}
 				} else {
 					reject({
 						code: 401,

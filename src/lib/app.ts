@@ -80,6 +80,6 @@ export default class App {
     		});
     	} catch (error) {
     		reject(error);
-    	});
+    	}
     })
 }
