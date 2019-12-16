@@ -2,10 +2,10 @@ import express from 'express';
 import { Controller, Route, RouteMiddleware } from '@dedekrnwan/decorators-express';
 import joi from '@hapi/joi';
 import { Exception } from '../../utils/exception';
-import joiMiddleware from '../../middleware/joi.middleware';
+import joiMiddleware from '../../middlewares/joi.middleware';
 import { login, register } from './auth.service';
 import { response } from '../../utils/response';
-import authMiddleware from '../../middleware/auth.middleware';
+import authMiddleware from '../../middlewares/auth.middleware';
 import eventEmitter from '../../listeners';
 
 @Controller('/auth')

@@ -1,10 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import errorMiddleware from '../middleware/error.middleware';
-import responseMiddleware from '../middleware/response.middleware';
+import errorMiddleware from '../middlewares/error.middleware';
+import responseMiddleware from '../middlewares/response.middleware';
 import { expressLogger } from '../utils/logger';
-import redisMiddleware from '../middleware/redis.middleware';
+import redisMiddleware from '../middlewares/redis.middleware';
 
 export const before = (app: express.Application): Promise<express.Application> => new Promise<express.Application>(async (resolve, reject) => {
 	try {
