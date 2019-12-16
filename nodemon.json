@@ -1,6 +1,7 @@
 {
     "ignore": ["**/*.test.ts", "**/*.spec.ts", ".git", "node_modules", "bin"],
     "watch": ["."],
-    "exec": "node --inspect=9230 -r ts-node/register ./src/lib/server.ts | pino-socket -m tcp -a 127.0.0.1 -p 5000",
+    "exec": "node --inspect=9230 -r ts-node/register ./src/lib/server.ts",
     "ext": "ts"
 }
+
