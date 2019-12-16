@@ -43,7 +43,10 @@ export const login = (credentials: AuthLogin): Promise<any> => new Promise<any>(
 				const token = await jwt.sign({
 					id: user.id,
 				});
-				resolve(token);
+				resolve({
+					token,
+					user,
+				});
 			} else {
 				reject(response.badRequest({
 					message: 'Email or password is invalid',
