@@ -4,3 +4,4 @@
     "exec": "node --inspect=9230 -r ts-node/register ./src/lib/server.ts",
     "ext": "ts"
 }
+
