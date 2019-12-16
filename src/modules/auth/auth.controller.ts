@@ -6,9 +6,20 @@ import joiMiddleware from '../../middleware/joi.middleware';
 import { login, register } from './auth.service';
 import { response } from '../../utils/response';
 import authMiddleware from '../../middleware/auth.middleware';
+import eventEmitter from '../../listeners';
 
 @Controller('/auth')
 export default class AuthController {
+	private EventEmitter
+
+	public EVENT_USER_REGISTER = 'auth.register'
+
+	constructor() {
+		eventEmitter().then((eem) => {
+			this.EventEmitter = eem;
+		}).catch(global.logger.error);
+	}
+
     @Route({
     	method: 'post',
     	path: '/login',
@@ -53,7 +64,7 @@ export default class AuthController {
     ])
     register = async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> => {
     	try {
-    		const token = await register({
+    		const { token, user } = await register({
     			email: req.body.email,
     			name: req.body.name,
     			username: req.body.username,
@@ -61,6 +72,10 @@ export default class AuthController {
     			birthdate: req.body.birthdate,
     			phone: req.body.phone,
     			telephone: req.body.telephone,
+    		});
+    		this.EventEmitter.emit(this.EVENT_USER_REGISTER, {
+    			user,
+    			token,
     		});
     		next(response.ok({
     			message: 'Register successfully',

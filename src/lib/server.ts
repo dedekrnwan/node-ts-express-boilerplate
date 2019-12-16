@@ -45,7 +45,6 @@ const server = (options: IServerOptions): Promise<any> => new Promise<any>(async
 			eventEmitter,
 		});
 	} catch (error) {
-		process.exit(1);
 		reject(error);
 	}
 });
@@ -55,5 +54,6 @@ server({
 }).then((result) => {
 	//
 }).catch((error) => {
-	throw error;
+	global.logger.error(error);
+	process.exit(1);
 });
