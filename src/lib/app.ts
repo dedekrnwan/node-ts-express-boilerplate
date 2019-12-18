@@ -2,10 +2,8 @@ import express from 'express';
 import http from 'http';
 import path from 'path';
 import * as fs from 'fs';
-import config from 'config';
 import Events from 'events';
 import kernel from './kernel';
-import apmServerService from '../services/apm-server.service';
 
 export default class App {
     app: express.Application
@@ -18,6 +16,7 @@ export default class App {
 
     constructor() {
     	this.app = express();
+
     	this.boot().then((result) => {
 
     	}).catch((error) => {

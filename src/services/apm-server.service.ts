@@ -8,6 +8,7 @@ export default (): Promise<any> => new Promise<any>(async (resolve, reject) => {
 			serverUrl: `${config.get('services.apm-server.host')}`,
 			captureBody: 'all',
 			usePathAsTransactionName: true,
+			active: ['staging', 'production'].includes(process.env.NODE_ENV),
 			// logLevel: 'trace',
 		});
 		global.apm = apm;
