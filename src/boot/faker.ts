@@ -21,14 +21,14 @@ export default (): Promise<any> => new Promise(async (resolve, reject) => {
 					createdDate: new Date(),
 					createdId: null,
 				}).then((result) => {
-					global.logger.info({
-						message: 'User has been generated',
-						result,
-					});
+
 				}).catch((err) => {
 					global.logger.error(err);
 				});
 			}
+			global.logger.info({
+				message: 'User has been generated',
+			});
 		}, 5000);
 		resolve(true);
 	} catch (error) {

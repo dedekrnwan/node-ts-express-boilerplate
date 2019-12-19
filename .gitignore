@@ -4,3 +4,4 @@ dist/*
 config/production.json
 config/staging.json
 *.log
+notes.txt

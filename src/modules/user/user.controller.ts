@@ -34,16 +34,17 @@ export default class UserController {
     ])
     get = async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> => {
     	try {
-    		let users = await User.findAll({
+    		const users = await User.findAll({
     			...res.locals.query,
     		});
-    		users = users.map((user) => {
-    			const item = {
-    				...user,
-    			};
-    			delete item.password;
-    			return item;
-    		});
+    		// users = users.map((user) => {
+    		// 	const item = {
+    		// 		...user,
+    		// 	};
+    		// 	delete item.password;
+    		// 	return item;
+    		// });
+    		// console.log(users);
     		next(response.ok({
     			message: 'User has been retrieved',
     			data: {

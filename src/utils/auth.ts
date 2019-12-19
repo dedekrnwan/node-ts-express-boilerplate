@@ -9,7 +9,7 @@ import User from '../modules/user/user.model';
 import Exception from './exception';
 
 export default {
-	authenticated: (req: express.Request): Promise<any> => new Promise<any>(async (resolve, reject) => {
+	authenticated: (req: express.Request): Promise<User> => new Promise<User>(async (resolve, reject) => {
 		try {
 			const token: string = req.headers.authorization ? req.headers.authorization.replace(/Bearer/g, '').replace(/ /g, '') : '';
 			if (token) {

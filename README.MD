@@ -7,26 +7,26 @@ Core of Boilerplate Node.js Project (Typescript)
 
     .
     ├── config                  # Configuration folder ( proceed data configuration from .env )
-    |   ├── development.json        # Your configuration file
-    |   ├── staging.json            # Your configuration file
-    |   ├── test.json               # Your configuration file
-    |   └── production.json         # Your configuration file
+    |   ├── development.json    # Your configuration file
+    |   ├── staging.json        # Your configuration file
+    |   ├── test.json           # Your configuration file
+    |   └── production.json     # Your configuration file
     ├── src                     # Source files
     ├── dist                    # Compiled files 
     ├── docs                    # Documentation files 
-    ├── tests                   # Automated tests 
     ├── .dockerignore           # Docker ignore file
     ├── env.example             # Example of env file
     ├── .eslintrc               # Eslint configuration file
+    ├── .gitignore              # Git ingnore file
     ├── .prettierrc             # Prettier configuration file
     ├── docker-compose.yml      # Docker Compose file to make development and production deployment easier
     ├── Dockerfile              # Dockerfile for this project
     ├── jest.config.js          # Jest configuration file
     ├── nodemon.json            # Nodemon configuration file
+    ├── package-lock.json       # You must know it
     ├── package.json            # You must know it
-    ├── tsconfig.json           # Typescript configuration
-    ├── LICENSE                 
-    └── README.md               # Your reading this
+    ├── README.md               # Your reading this
+    └── tsconfig.json           # Typescript configuration
 
 <!-- > Use short lowercase names at least for the top-level files and folders except
 > `LICENSE`, `README.md` -->
@@ -55,16 +55,25 @@ Source folder for compiled file
 
     .
     ├── dist
-    │   ├── controller              # Controller folder ( all controller is here )
-    |       ├── **.controller.ts    # Controller file ( using `@dedekrnwan/decorators-express` modules to help you routing and call declaring middleware )
-    |       └── index.ts            # Help you importing your controller only import the folder ( `import * as config from "./../controller"` )
-    │   ├── helper                  # Helper folder ( all your custom function or class is here to help your development process )
-    |       ├── **.helper.ts        # Your Helper file
-    |       └── index.ts            # Help you importing your helper only import the folder ( `import * as config from "./../helper"` )
+    │   ├── boot                    # Boot folder ( all boot  file is here )
+    |       └── ***.ts              # File with default function run while booting application
     │   ├── interfaces              # Interfaces folder ( interface file that you have make and you can use on another time in multiple logical function )
-    |       ├── **.interface.ts     # Your Interface File
-    |       └── index.ts            # Help you importing your interface only import the folder ( `import * as config from "./../interfaces"` )
-    │   ├── middleware              # Middleware folder ( Middleware package or custom for express js )
+    |       └── index.ts            # Index all of interfaces (all of interface declared in this file)
+    │   ├── lib                     # Lib folder in start folder for this application
+    |       ├──app.ts               # Application file handle application initialization
+    |       ├──kernel.ts            # kernel file filling all of controller in this folder (merge of all middleware with controller route)
+    |       ├──middleware.ts        # Middleware file (Declaring before, after, and error middleware condition for all controller routes)
+    |       └──server.ts            # Server file is starting file for this application
+    │   ├── listeners               # Middleware folder ( Middleware package or custom for express js )
+    |       ├── **.**.ts            # Listeners file
+    |       └── index.ts            # Sructure your middleware for position calling in `app.ts` and help you calling your middleware
+    │   ├── middlewares              # Middleware folder ( Middleware package or custom for express js )
+    |       ├── **.middleware.ts    # Your Middleware File
+    |       └── index.ts            # Sructure your middleware for position calling in `app.ts` and help you calling your middleware
+    │   ├── models              # Middleware folder ( Middleware package or custom for express js )
+    |       ├── **.middleware.ts    # Your Middleware File
+    |       └── index.ts            # Sructure your middleware for position calling in `app.ts` and help you calling your middleware
+    │   ├── modules              # Middleware folder ( Middleware package or custom for express js )
     |       ├── **.middleware.ts    # Your Middleware File
     |       └── index.ts            # Sructure your middleware for position calling in `app.ts` and help you calling your middleware
     │   ├── services                # Services folder ( Service file help you to declaring third part or custom service like `Database` and etc )
