@@ -2,7 +2,6 @@ import express from 'express';
 import http from 'http';
 import path from 'path';
 import * as fs from 'fs';
-import Events from 'events';
 import kernel from './kernel';
 
 export default class App {
@@ -23,8 +22,6 @@ export default class App {
     		global.logger.error(error);
     	});
     	this.burn(this.app);
-    	const eventEmitter = new Events();
-    	// eventEmitter.emit('testing');
     	this.static();
     }
 
@@ -73,7 +70,7 @@ export default class App {
     	try {
     		this.server = http.createServer(this.app);
     		this.server.listen(port, () => {
-    			resolve(this.server);
+    			resolve(this.app);
     		}).on('error', (error) => {
     			reject(error);
     		});

@@ -34,7 +34,7 @@ export default (data): Promise<any> => new Promise<any>(async (resolve, reject) 
 			promMail,
 			promSms,
 		]);
-		resolve(result);
+		resolve(`${data.user.name} has been resgitered`);
 	} catch (error) {
 		reject(error);
 	}

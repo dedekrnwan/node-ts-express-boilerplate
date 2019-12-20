@@ -35,11 +35,9 @@ const server = (options: IServerOptions): Promise<any> => new Promise<any>(async
 		const app = await application.run(options.port);
 		global.logger.info(`${packageJson.name} listening on the port ${options.port}`);
 
-		const eventEmitter = await listeners();
-
+		app.locals.eem = await listeners();
 		resolve({
 			app,
-			eventEmitter,
 		});
 	} catch (error) {
 		reject(error);

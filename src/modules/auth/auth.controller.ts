@@ -1,25 +1,23 @@
 import express from 'express';
 import { Controller, Route, RouteMiddleware } from '@dedekrnwan/decorators-express';
 import joi from '@hapi/joi';
+import Events from 'events';
 import { Exception } from '../../utils/exception';
 import joiMiddleware from '../../middlewares/joi.middleware';
 import { login, register } from './auth.service';
 import { response } from '../../utils/response';
 import authMiddleware from '../../middlewares/auth.middleware';
-import eventEmitter from '../../listeners';
 
 @Controller('/auth')
 export default class AuthController {
-	private EventEmitter
-
 	public EVENT_USER_REGISTERED = 'auth.registered'
 
 	public EVENT_USER_LOGED = 'auth.loged'
 
+	private EventEmitter: Events.EventEmitter
+
 	constructor() {
-		eventEmitter().then((eem) => {
-			this.EventEmitter = eem;
-		}).catch(global.logger.error);
+		this.EventEmitter = new Events.EventEmitter();
 	}
 
     @Route({
@@ -32,16 +30,6 @@ export default class AuthController {
     		password: joi.string().required(),
     	})),
     ])
-	@RouteMiddleware.after([
-		(async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> => {
-			try {
-				this.EventEmitter(this.EVENT_USER_LOGED);
-				next();
-			} catch (error) {
-				next(new Exception(error));
-			}
-		}),
-	])
     login = async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> => {
     	try {
     		const {
@@ -51,7 +39,12 @@ export default class AuthController {
     			email: req.body.email,
     			password: req.body.password,
     		});
-    		res.locals.user = user;
+
+    		req.app.locals.eem.emit(this.EVENT_USER_LOGED, {
+    			user,
+    			token,
+    		});
+
     		next(response.ok({
     			message: 'Login successfully',
     			data: {
@@ -100,7 +93,7 @@ export default class AuthController {
     			linkedinId: req.body.linkedinId,
     			twitterId: req.body.twitterId,
     		});
-    		this.EventEmitter.emit(this.EVENT_USER_REGISTERED, {
+    		req.app.locals.eem.emit(this.EVENT_USER_REGISTERED, {
     			user,
     			token,
     		});

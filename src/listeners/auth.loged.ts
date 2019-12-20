@@ -1,9 +1,11 @@
 import { User } from '../models';
 
-export default (user: User): Promise<any> => new Promise<any>(async (resolve, reject) => {
+export default ({
+	user,
+	token,
+}): Promise<any> => new Promise<any>(async (resolve, reject) => {
 	try {
-		global.logger.info(`${user.name} has been loged`);
-		resolve(user);
+		resolve(`${user.name} has been loged`);
 	} catch (error) {
 		reject(error);
 	}
