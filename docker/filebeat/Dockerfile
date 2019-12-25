@@ -1,0 +1,1 @@
+FROM docker.elastic.co/filebeat/filebeat:7.5.1

@@ -1,0 +1,1 @@
+FROM docker.elastic.co/store/elastic/metricbeat:7.5.1

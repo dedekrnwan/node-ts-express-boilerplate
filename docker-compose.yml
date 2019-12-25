@@ -53,6 +53,48 @@ services:
       - elasticsearch
     networks: 
       - default
+  filebeat:
+    container_name: mono_filebeat
+    image: store/elastic/filebeat:7.5.1
+    # build:
+    #   context: ./docker/filebeat
+    volumes:
+      - type: bind
+        source: ./docker/filebeat/config/filebeat.yml
+        target: /usr/share/filebeat/filebeat.yml
+      - type: bind
+        source: ./docker/filebeat/logs
+        target: /var/logs
+      - type: volume
+        source: mono_filebeat
+        target: /usr/share/filebeat/data
+    networks:
+      - default
+    depends_on:
+      - elasticsearch
+      - kibana
+    restart: unless-stopped
+  metricbeat:
+    container_name: mono_metricbeat
+    # build:
+    #   context: ./docker/metricbeat
+    image: store/elastic/metricbeat:7.5.1
+    networks:
+      - default
+    volumes: 
+      - type: bind
+        source: ./docker/metricbeat/config/metricbeat.yml
+        target: /usr/share/metricbeat/metricbeat.yml
+      - type: volume
+        source: mono_metricbeat
+        target: /usr/share/metricbeat/data
+    command: ["--strict.perms=false", "-system.hostfs=/hostfs"]
+    depends_on:
+      - elasticsearch
+      - kibana
+    environment:
+      - "WAIT_FOR_HOSTS=elasticsearch:9200 kibana:5601"
+    restart: unless-stopped
   redis:
     image: redis:alpine
     container_name: mono_redis
@@ -65,6 +107,7 @@ services:
     ports:
        - "6379:6379"
     command: ["redis-server", "--bind", "redis", "--port", "6379", "--requirepass","secret", "--appendonly","yes"]
+  
   database:
     build:
       context: ./docker/postgresql
@@ -107,7 +150,8 @@ volumes:
   mono_database:
   mono_elasticsearch:
   mono_redis:
-
+  mono_filebeat:
+  mono_metricbeat:
 networks: 
   default:
     driver: bridge

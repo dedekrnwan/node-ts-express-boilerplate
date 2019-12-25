@@ -35,6 +35,7 @@ export const login = (credentials: AuthLogin): Promise<any> => new Promise<any>(
 			where: {
 				email: credentials.email,
 			},
+			raw: true,
 		});
 		if (user) {
 			const comparePassword = await bcryptjs.compare(credentials.password, user.password);
