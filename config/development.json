@@ -13,7 +13,7 @@
   "database": [
     {
       "postgres": null,
-      "host": "database",
+      "host": "localhost",
       "db": "postgres",
       "username": "postgres",
       "password": "root",
