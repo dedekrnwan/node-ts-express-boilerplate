@@ -173,7 +173,6 @@ export const response = {
 	build: (res: IResponse): IResponse => res,
 	error: (res: IResponse): IResponse => ({
 		code: res.code,
-		success: res.success,
 		flag: res.flag,
 		message: res.message,
 		error: res.data,
