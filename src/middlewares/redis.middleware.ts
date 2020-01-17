@@ -1,9 +1,9 @@
+/* eslint-disable dot-notation */
 import * as express from 'express';
 import redis from 'redis';
 import lodash from 'lodash';
+import { HttpException, OkResponse } from '@dedekrnwan/core';
 import redisService from '../services/redis.service';
-import Exception from '../utils/exception';
-import response from '../utils/response';
 
 export default {
 	handler: async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> => {
@@ -14,12 +14,12 @@ export default {
 				const cacheKey = `${req.originalUrl}`;
 				redisClient.get(cacheKey, (err, result) => {
 					if (err) {
-						next(new Exception(err));
+						next(new HttpException(err));
 					}
 					if (result) {
-						const structured = response.ok(JSON.parse(result));
-						if (!lodash.isEqual(res.locals.query, structured.query)) {
-							delete structured.query;
+						const structured = new OkResponse(JSON.parse(result));
+						if (!lodash.isEqual(res.locals.query, structured['query'])) {
+							delete structured['query'];
 							global.logger.info(structured);
 							res.status(200).json(structured);
 						} else {
@@ -33,7 +33,7 @@ export default {
 				next();
 			}
 		} catch (error) {
-			next(new Exception(error));
+			next(new HttpException(error));
 		}
 	},
 	caching: async (structured: any, req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> => {
@@ -45,7 +45,7 @@ export default {
 				structured.query = res.locals.query;
 				redisClient.setex(cacheKey, 3600, JSON.stringify(structured), (error, rtr) => {
     				if (error) {
-						next(new Exception(error));
+						next(new HttpException(error));
     				} else {
 						next(structured);
 					}
@@ -54,7 +54,7 @@ export default {
 				next(structured);
 			}
 		} catch (error) {
-			next(new Exception(error));
+			next(new HttpException(error));
 		}
 	},
 };

@@ -1,7 +1,6 @@
 import express from 'express';
 import auth from '../utils/auth';
 import { IAuthorityCheck } from '../interfaces';
-import Exception from '../utils/exception';
 
 export default {
 	authenticated: async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> => {

@@ -1,7 +1,7 @@
 import bcryptjs from 'bcryptjs';
+import { BadRequestException } from '@dedekrnwan/core';
 import User from '../user/user.model';
 import jwt from '../../utils/jwt';
-import response from '../../utils/response';
 
 export interface AuthLogin {
     email: string;
@@ -49,12 +49,12 @@ export const login = (credentials: AuthLogin): Promise<any> => new Promise<any>(
 					user,
 				});
 			} else {
-				reject(response.badRequest({
+				reject(new BadRequestException({
 					message: 'Email or password is invalid',
 				}));
 			}
 		} else {
-			reject(response.badRequest({
+			reject(new BadRequestException({
 				message: 'Email or password is invalid',
 			}));
 		}
@@ -90,12 +90,12 @@ export const register = (data: AuthRegister): Promise<any> => new Promise<any>(a
 					user,
 				});
 			} else {
-				reject(response.badRequest({
+				reject(new BadRequestException({
 					message: 'Username already exists',
 				}));
 			}
 		} else {
-			reject(response.badRequest({
+			reject(new BadRequestException({
 				message: 'Email already exists',
 			}));
 		}

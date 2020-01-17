@@ -1,11 +1,11 @@
 import express from 'express';
-import { Controller, Route, RouteMiddleware } from '@dedekrnwan/decorators-express';
 import joi from '@hapi/joi';
 import Events from 'events';
-import { Exception } from '../../utils/exception';
+import {
+	Controller, Route, RouteMiddleware, OkResponse, HttpException,
+} from '@dedekrnwan/core';
 import joiMiddleware from '../../middlewares/joi.middleware';
 import { login, register } from './auth.service';
-import { response } from '../../utils/response';
 import authMiddleware from '../../middlewares/auth.middleware';
 
 @Controller('/auth')
@@ -45,14 +45,14 @@ export default class AuthController {
     			token,
     		});
 
-    		next(response.ok({
+    		next(new OkResponse({
     			message: 'Login successfully',
     			data: {
     				token,
     			},
     		}));
     	} catch (error) {
-    		next(new Exception(error));
+    		next(new HttpException(error));
     	}
     }
 
@@ -97,7 +97,7 @@ export default class AuthController {
     			user,
     			token,
     		});
-    		next(response.ok({
+    		next(new OkResponse({
     			message: 'Register successfully',
     			data: {
     				token,
@@ -120,7 +120,9 @@ export default class AuthController {
     ])
     testing = async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> => {
     	try {
-    		next(response.ok({}));
+    		next(new OkResponse({
+    			message: 'Ok',
+    		}));
     	} catch (error) {
     		next(error);
     	}

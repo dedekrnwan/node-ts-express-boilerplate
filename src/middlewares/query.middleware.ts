@@ -1,7 +1,6 @@
 /* eslint-disable radix */
 import express from 'express';
-import sequelize from 'sequelize';
-import Exception from '../utils/exception';
+import { HttpException } from '@dedekrnwan/core';
 
 export default {
 	pagination: async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> => {
@@ -20,7 +19,7 @@ export default {
 				next();
 			}
 		} catch (error) {
-			next(new Exception(error));
+			next(new HttpException(error));
 		}
 	},
 };

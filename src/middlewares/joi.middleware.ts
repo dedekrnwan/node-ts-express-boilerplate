@@ -1,6 +1,6 @@
 import joi from '@hapi/joi';
 import express from 'express';
-import response from '../utils/response';
+import { BadRequestException } from '@dedekrnwan/core';
 
 export default {
 	body: (schema: joi.ObjectSchema) => async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> => {
@@ -9,8 +9,7 @@ export default {
 			if (!result.error) {
 				next();
 			} else {
-				next(response.badRequest({
-					flag: 'Error validation',
+				next(new BadRequestException({
 					message: result.error.message,
 					data: {
 						error: result.error.details,
@@ -18,8 +17,7 @@ export default {
 				}));
 			}
 		} catch (error) {
-			next(response.badRequest({
-				flag: 'Error validation',
+			next(new BadRequestException({
 				message: error.name,
 				data: {
 					error: error.details,

@@ -1,8 +1,8 @@
 import express from 'express';
-import { Controller, Route, RouteMiddleware } from '@dedekrnwan/decorators-express';
-import Exception from '../../../utils/exception';
+import {
+	Controller, Route, RouteMiddleware, OkResponse, HttpException,
+} from '@dedekrnwan/core';
 import Mailer from '../../../services/mailer.service';
-import response from '../../../utils/response';
 
 @Controller('/user/verification')
 export default class UserVerificationController {
@@ -23,12 +23,11 @@ export default class UserVerificationController {
     			name: req.body.user.name,
     			link: 'somthing',
     		});
-    		next(response.ok({
+    		next(new OkResponse({
     			message: 'Email has been send',
-    			data: {},
     		}));
     	} catch (error) {
-    		next(new Exception(error));
+    		next(new HttpException(error));
     	}
     }
 }

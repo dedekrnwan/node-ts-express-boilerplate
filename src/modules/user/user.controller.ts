@@ -1,27 +1,19 @@
 import express from 'express';
-import { Controller, Route, RouteMiddleware } from '@dedekrnwan/decorators-express';
 import joi from '@hapi/joi';
-import { Exception } from '../../utils/exception';
+import {
+	Controller, Route, RouteMiddleware, OkResponse,
+	HttpException,
+} from '@dedekrnwan/core';
 import authMiddleware from '../../middlewares/auth.middleware';
-import { response } from '../../utils/response';
 import User from './user.model';
 import redisMiddleware from '../../middlewares/redis.middleware';
 import queryMiddleware from '../../middlewares/query.middleware';
 import joiMiddleware from '../../middlewares/joi.middleware';
 import { register } from '../auth/auth.service';
-import eventEmitter from '../../listeners';
 
 @Controller('/user')
 export default class UserController {
-	private EventEmitter
-
 	public EVENT_USER_CREATED = 'user.created'
-
-	constructor() {
-		eventEmitter().then((eem) => {
-			this.EventEmitter = eem;
-		}).catch(global.logger.error);
-	}
 
     @Route({
     	method: 'get',
@@ -45,14 +37,12 @@ export default class UserController {
     		// 	return item;
     		// });
     		// console.log(users);
-    		next(response.ok({
-    			message: 'User has been retrieved',
-    			data: {
-    				users,
-    			},
+    		next(new OkResponse({
+    			message: 'User has beeen retrivied',
+    			data: users,
     		}));
     	} catch (error) {
-    		next(new Exception(error));
+    		next(new HttpException(error));
     	}
     }
 
@@ -98,18 +88,14 @@ export default class UserController {
     			linkedinId: req.body.name,
     			twitterId: req.body.name,
     		});
-    		this.EventEmitter.emit(this.EVENT_USER_CREATED, {
-    			user,
-    			token,
-    		});
-    		next(response.ok({
+    		next(new OkResponse({
     			message: 'Register successfully',
     			data: {
     				token,
     			},
     		}));
     	} catch (error) {
-    		next(new Exception(error));
+    		next(new HttpException(error));
     	}
     }
 }

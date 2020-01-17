@@ -1,4 +1,5 @@
 import express from 'express';
+import { HttpException } from '@dedekrnwan/core';
 import jwt from './jwt';
 import { IAuthorityCheck } from '../interfaces';
 import Module from '../modules/module/module.model';
@@ -6,7 +7,6 @@ import Authority from '../modules/authority/authority.model';
 import AuthorityAccess from '../modules/authority/authorityAccess/authorityAccess.model';
 import UserAuthority from '../modules/user/userAuthority/userAuthority.model';
 import User from '../modules/user/user.model';
-import Exception from './exception';
 
 export default {
 	authenticated: (req: express.Request): Promise<User> => new Promise<User>(async (resolve, reject) => {
@@ -26,21 +26,18 @@ export default {
 					} else {
 						reject({
 							code: 401,
-							flag: 'Unauthorized',
 							message: 'Access denied, Token is invalid',
 						});
 					}
 				} else {
 					reject({
 						code: 401,
-						flag: 'Unauthorized',
 						message: 'Access denied, Token is invalid',
 					});
 				}
 			} else {
 				reject({
 					code: 401,
-					flag: 'Unauthorized',
 					message: 'Access denied, Token is invalid',
 				});
 			}
@@ -48,7 +45,6 @@ export default {
 			// reject(new Exception(error));
 			reject({
 				code: 401,
-				flag: 'Unauthorized',
 				message: 'Access denied, Token is invalid',
 			});
 		}
@@ -95,7 +91,6 @@ export default {
 				} else {
 					reject({
 						code: 401,
-						flag: 'Unauthorized',
 						message: 'You doesn\'t have valid authority',
 					});
 				}
@@ -107,7 +102,7 @@ export default {
 				});
 			}
 		} catch (error) {
-			reject(new Exception(error));
+			reject(new HttpException(error));
 		}
 	}),
 };

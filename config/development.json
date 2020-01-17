@@ -17,7 +17,7 @@
       "db": "postgres",
       "username": "postgres",
       "password": "root",
-      "port": 5432,
+      "port": 5436,
       "dialect": "postgres"
     }
   ],
