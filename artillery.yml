@@ -1,0 +1,11 @@
+config:
+    target: 'http://api.dedekrnwan.site'
+    phases:
+    -   duration: 60
+        arrivalRate: 20
+scenarios:
+-   flow:
+    -   get:
+            url: "/user"
+    -   get:
+            url: "/analytics/educations"

@@ -37,12 +37,12 @@ global.logger.info(`Listening ${process.env.NODE_ENV} config`);
 const server = (options: IServerOptions): Promise<any> => new Promise<any>(async (resolve, reject) => {
 	try {
 		const application: App = new App();
-		application.setModules(path.join(__dirname, './../modules'));
-		application.setStatic({
+		application.addModules(path.join(__dirname, './../modules'));
+		application.addStatic({
 			path: path.join(__dirname, './../../public'),
 			prefix: '/public',
 		});
-		application.setBootable(path.join(__dirname, './../boot'));
+		application.addBootable(path.join(__dirname, './../boot'));
 		application.setMiddlewares({
 			before: [
 				helmet(),

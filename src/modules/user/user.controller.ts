@@ -3,6 +3,7 @@ import joi from '@hapi/joi';
 import {
 	Controller, Route, RouteMiddleware, OkResponse,
 	HttpException,
+	BadGatewayException,
 } from '@dedekrnwan/core';
 import authMiddleware from '../../middlewares/auth.middleware';
 import User from './user.model';
@@ -20,7 +21,6 @@ export default class UserController {
     	path: '/',
     })
     @RouteMiddleware.before([
-    	authMiddleware.authenticated,
     	queryMiddleware.pagination,
     	redisMiddleware.handler,
     ])
@@ -37,7 +37,7 @@ export default class UserController {
     		// 	return item;
     		// });
     		// console.log(users);
-    		next(new OkResponse({
+    		next(new BadGatewayException({
     			message: 'User has beeen retrivied',
     			data: users,
     		}));

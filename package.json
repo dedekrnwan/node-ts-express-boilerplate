@@ -28,7 +28,7 @@
   "author": "Dede Kurniawan",
   "license": "ISC",
   "dependencies": {
-    "@dedekrnwan/core": "^1.1.6",
+    "@dedekrnwan/core": "^1.1.8",
     "@elastic/elasticsearch": "^7.4.0",
     "@hapi/joi": "^16.1.7",
     "bcryptjs": "^2.4.3",
