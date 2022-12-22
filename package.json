@@ -40,7 +40,7 @@
     "firebase-admin": "^8.8.0",
     "handlebars": "^4.5.2",
     "helmet": "^3.21.2",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "localenv": "^0.2.2",
     "nodemailer": "^6.3.1",
     "pg": "^7.12.1",
